@@ -161,4 +161,42 @@ footer {
     .note h3 {
         font-size: 16px;
     }
+/* =========================
+   DAY BUTTONS
+========================= */
+
+.day-button {
+    width: 100%;
+    display: block;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+
+    background: #ffffff;
+    color: #1f2937;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    text-align: left;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.day-button:hover {
+    background: #eef4ff;
+    transform: translateX(5px);
+}
+
+
+/* =========================
+   SELECTED TOPIC
+========================= */
+
+#topic-details {
+    margin-top: 30px;
+}
 }
