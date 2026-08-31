@@ -1,0 +1,101 @@
+/* =========================
+   General
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+header {
+    background: #1f2937;
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+header p {
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+
+/* =========================
+   Main Content
+========================= */
+
+main {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+
+/* =========================
+   Sections
+========================= */
+
+section {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+section h2 {
+    margin-top: 0;
+    color: #1f2937;
+}
+
+
+/* =========================
+   Footer
+========================= */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    main {
+        padding: 0 12px;
+    }
+
+    section {
+        padding: 18px;
+    }
+}
