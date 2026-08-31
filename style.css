@@ -214,6 +214,43 @@ footer {
 
     outline: none;
 }
+/* =========================
+   ANSWER BUTTON
+========================= */
+
+.answer-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+
+    background: #2563eb;
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.answer-button:hover {
+    opacity: 0.85;
+}
+
+
+/* =========================
+   ANSWER
+========================= */
+
+.answer {
+    margin-top: 15px;
+    padding: 12px;
+
+    background: #f0fdf4;
+
+    border-left: 4px solid #22c55e;
+
+    border-radius: 5px;
+}
 
 #searchInput:focus {
     border-color: #2563eb;
