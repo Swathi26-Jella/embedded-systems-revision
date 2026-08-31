@@ -53,6 +53,8 @@ function showTopic(topic) {
     detailsContainer.innerHTML = "";
 
 
+    // Topic Title
+
     const title = document.createElement("h2");
 
     title.textContent =
@@ -61,7 +63,7 @@ function showTopic(topic) {
     detailsContainer.appendChild(title);
 
 
-    // Show category
+    // Category
 
     const category = document.createElement("p");
 
@@ -71,7 +73,7 @@ function showTopic(topic) {
     detailsContainer.appendChild(category);
 
 
-    // Show keywords
+    // Keywords
 
     const keywords = document.createElement("p");
 
@@ -81,7 +83,9 @@ function showTopic(topic) {
     detailsContainer.appendChild(keywords);
 
 
-    // Show notes
+    // ================================
+    // SHOW QUESTIONS + HIDDEN ANSWERS
+    // ================================
 
     topic.notes.forEach(note => {
 
@@ -90,17 +94,61 @@ function showTopic(topic) {
         noteBox.className = "note";
 
 
+        // Question
+
         const question = document.createElement("h3");
 
-        question.textContent = note.question;
+        question.textContent = "❓ " + note.question;
 
+
+        // Show Answer Button
+
+        const answerButton = document.createElement("button");
+
+        answerButton.className = "answer-button";
+
+        answerButton.textContent = "👀 Show Answer";
+
+
+        // Answer
 
         const answer = document.createElement("p");
 
-        answer.textContent = note.answer;
+        answer.className = "answer";
 
+        answer.textContent = "💡 " + note.answer;
+
+        answer.style.display = "none";
+
+
+        // Button Click
+
+        answerButton.addEventListener("click", function () {
+
+            if (answer.style.display === "none") {
+
+                answer.style.display = "block";
+
+                answerButton.textContent =
+                    "🙈 Hide Answer";
+
+            } else {
+
+                answer.style.display = "none";
+
+                answerButton.textContent =
+                    "👀 Show Answer";
+
+            }
+
+        });
+
+
+        // Add everything
 
         noteBox.appendChild(question);
+
+        noteBox.appendChild(answerButton);
 
         noteBox.appendChild(answer);
 
@@ -153,11 +201,9 @@ searchInput.addEventListener("input", function () {
 // START WEBSITE
 // ================================
 
-// Display all topics
 displayTopics(topics);
 
 
-// Automatically show first topic
 if (topics.length > 0) {
 
     showTopic(topics[0]);
