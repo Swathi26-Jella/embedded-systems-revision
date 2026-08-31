@@ -3,10 +3,22 @@ const detailsContainer = document.getElementById("topic-details");
 const searchInput = document.getElementById("searchInput");
 
 
-// DISPLAY TOPICS
+// ========================================
+// DISPLAY TOPIC LIST
+// ========================================
+
 function displayTopics(topicList) {
 
     topicContainer.innerHTML = "";
+
+    if (topicList.length === 0) {
+
+        topicContainer.innerHTML =
+            "<p>❌ No topics found. Try another search.</p>";
+
+        return;
+    }
+
 
     topicList.forEach(function(topic) {
 
@@ -19,21 +31,31 @@ function displayTopics(topicList) {
             " | " + topic.category +
             " | " + topic.title;
 
+
         button.onclick = function() {
+
             showTopic(topic);
+
         };
+
 
         topicContainer.appendChild(button);
 
     });
+
 }
 
 
-// SHOW TOPIC
+// ========================================
+// SHOW SELECTED TOPIC
+// ========================================
+
 function showTopic(topic) {
 
     detailsContainer.innerHTML = "";
 
+
+    // TITLE
     const title = document.createElement("h2");
 
     title.textContent =
@@ -42,6 +64,7 @@ function showTopic(topic) {
     detailsContainer.appendChild(title);
 
 
+    // CATEGORY
     const category = document.createElement("p");
 
     category.innerHTML =
@@ -51,6 +74,7 @@ function showTopic(topic) {
     detailsContainer.appendChild(category);
 
 
+    // KEYWORDS
     const keywords = document.createElement("p");
 
     keywords.innerHTML =
@@ -60,7 +84,10 @@ function showTopic(topic) {
     detailsContainer.appendChild(keywords);
 
 
-    // QUESTIONS
+    // ====================================
+    // QUESTIONS AND ANSWERS
+    // ====================================
+
     topic.notes.forEach(function(note) {
 
         const noteBox = document.createElement("div");
@@ -75,40 +102,51 @@ function showTopic(topic) {
             "❓ " + note.question;
 
 
-        // BUTTON
-        const button = document.createElement("button");
+        // ANSWER BUTTON
+        const answerButton =
+            document.createElement("button");
 
-        button.className = "answer-button";
+        answerButton.className =
+            "answer-button";
 
-        button.textContent =
+        answerButton.textContent =
             "👀 Show Answer";
 
 
         // ANSWER
-        const answer = document.createElement("p");
+        const answer =
+            document.createElement("p");
 
-        answer.className = "answer";
+        answer.className =
+            "answer";
 
         answer.textContent =
             "💡 " + note.answer;
 
+
+        // Hide answer initially
         answer.hidden = true;
 
 
-        // BUTTON ACTION
-        button.onclick = function() {
+        // ====================================
+        // SHOW / HIDE ANSWER
+        // ====================================
 
-            answer.hidden = !answer.hidden;
+        answerButton.onclick = function() {
 
             if (answer.hidden) {
 
-                button.textContent =
-                    "👀 Show Answer";
+                answer.hidden = false;
+
+                answerButton.textContent =
+                    "🙈 Hide Answer";
 
             } else {
 
-                button.textContent =
-                    "🙈 Hide Answer";
+                answer.hidden = true;
+
+                answerButton.textContent =
+                    "👀 Show Answer";
 
             }
 
@@ -117,7 +155,7 @@ function showTopic(topic) {
 
         noteBox.appendChild(question);
 
-        noteBox.appendChild(button);
+        noteBox.appendChild(answerButton);
 
         noteBox.appendChild(answer);
 
@@ -128,20 +166,80 @@ function showTopic(topic) {
 }
 
 
-// SEARCH
+// ========================================
+// SMART SEARCH
+// ========================================
+
 searchInput.addEventListener("input", function() {
 
     const searchText =
         searchInput.value.toLowerCase().trim();
 
 
+    // If search box is empty,
+    // display everything
+    if (searchText === "") {
+
+        displayTopics(topics);
+
+        return;
+    }
+
+
     const filteredTopics =
         topics.filter(function(topic) {
 
+
+            // DAY
+            const day =
+                String(topic.day);
+
+
+            // CATEGORY
+            const category =
+                topic.category.toLowerCase();
+
+
+            // TITLE
+            const title =
+                topic.title.toLowerCase();
+
+
+            // KEYWORDS
+            const keywords =
+                topic.keywords
+                    .join(" ")
+                    .toLowerCase();
+
+
+            // QUESTIONS
+            const questions =
+                topic.notes
+                    .map(function(note) {
+                        return note.question;
+                    })
+                    .join(" ")
+                    .toLowerCase();
+
+
+            // ANSWERS
+            const answers =
+                topic.notes
+                    .map(function(note) {
+                        return note.answer;
+                    })
+                    .join(" ")
+                    .toLowerCase();
+
+
+            // SEARCH EVERYTHING
             return (
-                topic.title.toLowerCase().includes(searchText) ||
-                topic.category.toLowerCase().includes(searchText) ||
-                topic.keywords.join(" ").toLowerCase().includes(searchText)
+                day.includes(searchText) ||
+                category.includes(searchText) ||
+                title.includes(searchText) ||
+                keywords.includes(searchText) ||
+                questions.includes(searchText) ||
+                answers.includes(searchText)
             );
 
         });
@@ -152,9 +250,15 @@ searchInput.addEventListener("input", function() {
 });
 
 
-// START
+// ========================================
+// START WEBSITE
+// ========================================
+
 displayTopics(topics);
 
+
 if (topics.length > 0) {
+
     showTopic(topics[0]);
+
 }
