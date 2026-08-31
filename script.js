@@ -3,148 +3,142 @@ const detailsContainer = document.getElementById("topic-details");
 const searchInput = document.getElementById("searchInput");
 
 
-// ================================
-// DISPLAY TOPIC BUTTONS
-// ================================
+// ========================================
+// DISPLAY TOPIC LIST
+// ========================================
 
 function displayTopics(topicList) {
 
     topicContainer.innerHTML = "";
 
     if (topicList.length === 0) {
-
         topicContainer.innerHTML =
-            "<p>No topics found. Try another search.</p>";
-
+            "<p>❌ No topics found.</p>";
         return;
     }
 
-
-    topicList.forEach(topic => {
+    topicList.forEach(function(topic) {
 
         const button = document.createElement("button");
 
         button.className = "day-button";
 
         button.textContent =
-            `Day ${topic.day} | ${topic.category} | ${topic.title}`;
+            "Day " + topic.day +
+            " | " + topic.category +
+            " | " + topic.title;
 
-
-        button.addEventListener("click", function () {
-
+        button.onclick = function() {
             showTopic(topic);
-
-        });
-
+        };
 
         topicContainer.appendChild(button);
 
     });
-
 }
 
 
-// ================================
+// ========================================
 // SHOW SELECTED TOPIC
-// ================================
+// ========================================
 
 function showTopic(topic) {
 
     detailsContainer.innerHTML = "";
 
-
-    // Topic Title
-
+    // TITLE
     const title = document.createElement("h2");
 
     title.textContent =
-        `Day ${topic.day} — ${topic.title}`;
+        "Day " + topic.day + " — " + topic.title;
 
     detailsContainer.appendChild(title);
 
 
-    // Category
-
+    // CATEGORY
     const category = document.createElement("p");
 
     category.innerHTML =
-        `<strong>📂 Category:</strong> ${topic.category}`;
+        "<strong>📂 Category:</strong> " +
+        topic.category;
 
     detailsContainer.appendChild(category);
 
 
-    // Keywords
-
+    // KEYWORDS
     const keywords = document.createElement("p");
 
     keywords.innerHTML =
-        `<strong>🔑 Keywords:</strong> ${topic.keywords.join(", ")}`;
+        "<strong>🔑 Keywords:</strong> " +
+        topic.keywords.join(", ");
 
     detailsContainer.appendChild(keywords);
 
 
-    // ================================
-    // SHOW QUESTIONS + HIDDEN ANSWERS
-    // ================================
+    // ========================================
+    // QUESTIONS
+    // ========================================
 
-    topic.notes.forEach(note => {
+    topic.notes.forEach(function(note) {
 
         const noteBox = document.createElement("div");
 
         noteBox.className = "note";
 
 
-        // Question
-
+        // QUESTION
         const question = document.createElement("h3");
 
-        question.textContent = "❓ " + note.question;
+        question.textContent =
+            "❓ " + note.question;
 
 
-        // Show Answer Button
+        // ANSWER BUTTON
+        const answerButton =
+            document.createElement("button");
 
-        const answerButton = document.createElement("button");
+        answerButton.className =
+            "answer-button";
 
-        answerButton.className = "answer-button";
+        answerButton.textContent =
+            "👀 Show Answer";
 
-        answerButton.textContent = "👀 Show Answer";
 
-
-        // Answer
-
-        const answer = document.createElement("p");
+        // ANSWER
+        const answer =
+            document.createElement("p");
 
         answer.className = "answer";
 
-        answer.textContent = "💡 " + note.answer;
+        answer.textContent =
+            "💡 " + note.answer;
 
-        answer.style.display = "none";
+        answer.hidden = true;
 
 
-        // Button Click
+        // ========================================
+        // SHOW / HIDE ANSWER
+        // ========================================
 
-        answerButton.addEventListener("click", function () {
+        answerButton.onclick = function() {
 
-            if (answer.style.display === "none") {
+            if (answer.hidden) {
 
-                answer.style.display = "block";
+                answer.hidden = false;
 
                 answerButton.textContent =
                     "🙈 Hide Answer";
 
             } else {
 
-                answer.style.display = "none";
+                answer.hidden = true;
 
                 answerButton.textContent =
                     "👀 Show Answer";
-
             }
 
-        });
+        };
 
-
-        // Add everything
 
         noteBox.appendChild(question);
 
@@ -159,37 +153,36 @@ function showTopic(topic) {
 }
 
 
-// ================================
-// SEARCH FUNCTION
-// ================================
+// ========================================
+// SEARCH
+// ========================================
 
-searchInput.addEventListener("input", function () {
+searchInput.addEventListener("input", function() {
 
     const searchText =
-        searchInput.value.toLowerCase();
+        searchInput.value.toLowerCase().trim();
 
 
-    const filteredTopics = topics.filter(topic => {
+    const filteredTopics =
+        topics.filter(function(topic) {
 
-        const title =
-            topic.title.toLowerCase();
+            const title =
+                topic.title.toLowerCase();
 
-        const category =
-            topic.category.toLowerCase();
+            const category =
+                topic.category.toLowerCase();
 
-        const keywords =
-            topic.keywords
-                .join(" ")
-                .toLowerCase();
+            const keywords =
+                topic.keywords.join(" ").toLowerCase();
 
 
-        return (
-            title.includes(searchText) ||
-            category.includes(searchText) ||
-            keywords.includes(searchText)
-        );
+            return (
+                title.includes(searchText) ||
+                category.includes(searchText) ||
+                keywords.includes(searchText)
+            );
 
-    });
+        });
 
 
     displayTopics(filteredTopics);
@@ -197,9 +190,9 @@ searchInput.addEventListener("input", function () {
 });
 
 
-// ================================
+// ========================================
 // START WEBSITE
-// ================================
+// ========================================
 
 displayTopics(topics);
 
