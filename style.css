@@ -268,4 +268,54 @@ footer {
 #topic-details {
     margin-top: 15px;
 }
+/* =================================
+   CATEGORY SECTION
+================================= */
+
+.category-section {
+    margin: 20px 0;
+}
+
+.category-section h3 {
+    margin-bottom: 10px;
+}
+
+
+/* =================================
+   CATEGORY BUTTONS
+================================= */
+
+.category-button {
+    padding: 10px 16px;
+
+    margin: 5px;
+
+    border: 1px solid #2563eb;
+
+    border-radius: 20px;
+
+    background: white;
+
+    color: #2563eb;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+
+/* Hover */
+
+.category-button:hover {
+    background: #2563eb;
+    color: white;
+}
+
+
+/* Selected category */
+
+.category-button.active {
+    background: #2563eb;
+    color: white;
+}
 }
