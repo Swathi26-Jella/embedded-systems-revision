@@ -55,7 +55,10 @@ function showTopic(topic) {
     detailsContainer.innerHTML = "";
 
 
-    // TITLE
+    // ====================================
+    // TOPIC TITLE
+    // ====================================
+
     const title = document.createElement("h2");
 
     title.textContent =
@@ -64,7 +67,10 @@ function showTopic(topic) {
     detailsContainer.appendChild(title);
 
 
+    // ====================================
     // CATEGORY
+    // ====================================
+
     const category = document.createElement("p");
 
     category.innerHTML =
@@ -74,7 +80,10 @@ function showTopic(topic) {
     detailsContainer.appendChild(category);
 
 
+    // ====================================
     // KEYWORDS
+    // ====================================
+
     const keywords = document.createElement("p");
 
     keywords.innerHTML =
@@ -95,14 +104,20 @@ function showTopic(topic) {
         noteBox.className = "note";
 
 
+        // ====================================
         // QUESTION
+        // ====================================
+
         const question = document.createElement("h3");
 
         question.textContent =
             "❓ " + note.question;
 
 
-        // ANSWER BUTTON
+        // ====================================
+        // SHOW ANSWER BUTTON
+        // ====================================
+
         const answerButton =
             document.createElement("button");
 
@@ -113,7 +128,10 @@ function showTopic(topic) {
             "👀 Show Answer";
 
 
+        // ====================================
         // ANSWER
+        // ====================================
+
         const answer =
             document.createElement("p");
 
@@ -153,6 +171,10 @@ function showTopic(topic) {
         };
 
 
+        // ====================================
+        // ADD QUESTION + BUTTON + ANSWER
+        // ====================================
+
         noteBox.appendChild(question);
 
         noteBox.appendChild(answerButton);
@@ -176,8 +198,10 @@ searchInput.addEventListener("input", function() {
         searchInput.value.toLowerCase().trim();
 
 
-    // If search box is empty,
-    // display everything
+    // ====================================
+    // EMPTY SEARCH
+    // ====================================
+
     if (searchText === "") {
 
         displayTopics(topics);
@@ -186,64 +210,136 @@ searchInput.addEventListener("input", function() {
     }
 
 
+    // ====================================
+    // FILTER TOPICS
+    // ====================================
+
     const filteredTopics =
         topics.filter(function(topic) {
 
 
+            // ====================================
             // DAY
+            // ====================================
+
             const day =
-                String(topic.day);
+                String(topic.day).toLowerCase();
 
 
+            const dayText =
+                "day " + day;
+
+
+            // ====================================
             // CATEGORY
+            // ====================================
+
             const category =
-                topic.category.toLowerCase();
+                String(topic.category).toLowerCase();
 
 
+            // ====================================
             // TITLE
+            // ====================================
+
             const title =
-                topic.title.toLowerCase();
+                String(topic.title).toLowerCase();
 
 
+            // ====================================
             // KEYWORDS
+            // ====================================
+
             const keywords =
                 topic.keywords
                     .join(" ")
                     .toLowerCase();
 
 
+            // ====================================
             // QUESTIONS
+            // ====================================
+
             const questions =
                 topic.notes
                     .map(function(note) {
+
                         return note.question;
+
                     })
                     .join(" ")
                     .toLowerCase();
 
 
+            // ====================================
             // ANSWERS
+            // ====================================
+
             const answers =
                 topic.notes
                     .map(function(note) {
+
                         return note.answer;
+
                     })
                     .join(" ")
                     .toLowerCase();
 
 
-            // SEARCH EVERYTHING
-            return (
-                day.includes(searchText) ||
+            // ====================================
+            // GENERAL SEARCH
+            // ====================================
+
+            const contentMatch =
                 category.includes(searchText) ||
                 title.includes(searchText) ||
                 keywords.includes(searchText) ||
                 questions.includes(searchText) ||
-                answers.includes(searchText)
-            );
+                answers.includes(searchText);
+
+
+            // ====================================
+            // DAY SEARCH
+            // ====================================
+
+            let dayMatch = false;
+
+
+            // Search "Day 3"
+            if (searchText.startsWith("day ")) {
+
+                const searchedDay =
+                    searchText
+                        .replace("day ", "")
+                        .trim();
+
+                dayMatch =
+                    day === searchedDay;
+
+            }
+
+
+            // Search only "3"
+            else if (/^\d+$/.test(searchText)) {
+
+                dayMatch =
+                    day === searchText;
+
+            }
+
+
+            // ====================================
+            // FINAL RESULT
+            // ====================================
+
+            return dayMatch || contentMatch;
 
         });
 
+
+    // ====================================
+    // DISPLAY SEARCH RESULTS
+    // ====================================
 
     displayTopics(filteredTopics);
 
@@ -254,9 +350,11 @@ searchInput.addEventListener("input", function() {
 // START WEBSITE
 // ========================================
 
+// Display all topics
 displayTopics(topics);
 
 
+// Show first topic automatically
 if (topics.length > 0) {
 
     showTopic(topics[0]);
