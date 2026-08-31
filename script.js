@@ -3,19 +3,10 @@ const detailsContainer = document.getElementById("topic-details");
 const searchInput = document.getElementById("searchInput");
 
 
-// ========================================
-// DISPLAY TOPIC LIST
-// ========================================
-
+// DISPLAY TOPICS
 function displayTopics(topicList) {
 
     topicContainer.innerHTML = "";
-
-    if (topicList.length === 0) {
-        topicContainer.innerHTML =
-            "<p>❌ No topics found.</p>";
-        return;
-    }
 
     topicList.forEach(function(topic) {
 
@@ -38,15 +29,11 @@ function displayTopics(topicList) {
 }
 
 
-// ========================================
-// SHOW SELECTED TOPIC
-// ========================================
-
+// SHOW TOPIC
 function showTopic(topic) {
 
     detailsContainer.innerHTML = "";
 
-    // TITLE
     const title = document.createElement("h2");
 
     title.textContent =
@@ -55,7 +42,6 @@ function showTopic(topic) {
     detailsContainer.appendChild(title);
 
 
-    // CATEGORY
     const category = document.createElement("p");
 
     category.innerHTML =
@@ -65,7 +51,6 @@ function showTopic(topic) {
     detailsContainer.appendChild(category);
 
 
-    // KEYWORDS
     const keywords = document.createElement("p");
 
     keywords.innerHTML =
@@ -75,10 +60,7 @@ function showTopic(topic) {
     detailsContainer.appendChild(keywords);
 
 
-    // ========================================
     // QUESTIONS
-    // ========================================
-
     topic.notes.forEach(function(note) {
 
         const noteBox = document.createElement("div");
@@ -93,20 +75,17 @@ function showTopic(topic) {
             "❓ " + note.question;
 
 
-        // ANSWER BUTTON
-        const answerButton =
-            document.createElement("button");
+        // BUTTON
+        const button = document.createElement("button");
 
-        answerButton.className =
-            "answer-button";
+        button.className = "answer-button";
 
-        answerButton.textContent =
+        button.textContent =
             "👀 Show Answer";
 
 
         // ANSWER
-        const answer =
-            document.createElement("p");
+        const answer = document.createElement("p");
 
         answer.className = "answer";
 
@@ -116,25 +95,21 @@ function showTopic(topic) {
         answer.hidden = true;
 
 
-        // ========================================
-        // SHOW / HIDE ANSWER
-        // ========================================
+        // BUTTON ACTION
+        button.onclick = function() {
 
-        answerButton.onclick = function() {
+            answer.hidden = !answer.hidden;
 
             if (answer.hidden) {
 
-                answer.hidden = false;
-
-                answerButton.textContent =
-                    "🙈 Hide Answer";
+                button.textContent =
+                    "👀 Show Answer";
 
             } else {
 
-                answer.hidden = true;
+                button.textContent =
+                    "🙈 Hide Answer";
 
-                answerButton.textContent =
-                    "👀 Show Answer";
             }
 
         };
@@ -142,7 +117,7 @@ function showTopic(topic) {
 
         noteBox.appendChild(question);
 
-        noteBox.appendChild(answerButton);
+        noteBox.appendChild(button);
 
         noteBox.appendChild(answer);
 
@@ -153,10 +128,7 @@ function showTopic(topic) {
 }
 
 
-// ========================================
 // SEARCH
-// ========================================
-
 searchInput.addEventListener("input", function() {
 
     const searchText =
@@ -166,20 +138,10 @@ searchInput.addEventListener("input", function() {
     const filteredTopics =
         topics.filter(function(topic) {
 
-            const title =
-                topic.title.toLowerCase();
-
-            const category =
-                topic.category.toLowerCase();
-
-            const keywords =
-                topic.keywords.join(" ").toLowerCase();
-
-
             return (
-                title.includes(searchText) ||
-                category.includes(searchText) ||
-                keywords.includes(searchText)
+                topic.title.toLowerCase().includes(searchText) ||
+                topic.category.toLowerCase().includes(searchText) ||
+                topic.keywords.join(" ").toLowerCase().includes(searchText)
             );
 
         });
@@ -190,15 +152,9 @@ searchInput.addEventListener("input", function() {
 });
 
 
-// ========================================
-// START WEBSITE
-// ========================================
-
+// START
 displayTopics(topics);
 
-
 if (topics.length > 0) {
-
     showTopic(topics[0]);
-
 }
