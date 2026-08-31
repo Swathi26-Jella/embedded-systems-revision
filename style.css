@@ -1,5 +1,5 @@
 /* =========================
-   General
+   GENERAL SETTINGS
 ========================= */
 
 * {
@@ -16,7 +16,7 @@ body {
 
 
 /* =========================
-   Header
+   HEADER
 ========================= */
 
 header {
@@ -38,7 +38,7 @@ header p {
 
 
 /* =========================
-   Main Content
+   MAIN CONTENT
 ========================= */
 
 main {
@@ -49,7 +49,7 @@ main {
 
 
 /* =========================
-   Sections
+   MAIN SECTIONS
 ========================= */
 
 section {
@@ -67,39 +67,7 @@ section h2 {
 
 
 /* =========================
-   Footer
-========================= */
-
-footer {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-}
-
-
-/* =========================
-   Mobile
-========================= */
-
-@media (max-width: 600px) {
-
-    header h1 {
-        font-size: 25px;
-    }
-
-    header p {
-        font-size: 16px;
-    }
-
-    main {
-        padding: 0 12px;
-    }
-
-    section {
-        padding: 18px;
-    }
-/* =========================
-   Topic Cards
+   TOPIC CARDS
 ========================= */
 
 .topic-card {
@@ -112,7 +80,13 @@ footer {
 
 .topic-card h2 {
     margin-top: 0;
+    color: #1f2937;
 }
+
+
+/* =========================
+   NOTES
+========================= */
 
 .note {
     background: white;
@@ -124,6 +98,67 @@ footer {
 
 .note h3 {
     margin-top: 0;
+    margin-bottom: 8px;
     font-size: 18px;
-}   
+    color: #2563eb;
+}
+
+.note p {
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+
+/* =========================
+   MOBILE DESIGN
+========================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 25px 15px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    main {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    section {
+        padding: 18px;
+    }
+
+    .topic-card {
+        padding: 15px;
+    }
+
+    .topic-card h2 {
+        font-size: 20px;
+    }
+
+    .note {
+        padding: 12px;
+    }
+
+    .note h3 {
+        font-size: 16px;
+    }
 }
