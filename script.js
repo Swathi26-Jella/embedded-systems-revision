@@ -1,53 +1,88 @@
 const topicContainer = document.getElementById("topics");
-
-// Create the Day buttons
-topics.forEach(topic => {
-
-    const button = document.createElement("button");
-
-    button.className = "day-button";
-
-    button.textContent = `Day ${topic.day} — ${topic.title}`;
-
-    // When the button is clicked
-    button.addEventListener("click", function () {
-
-        showTopic(topic);
-
-    });
-
-    topicContainer.appendChild(button);
-});
+const detailsContainer = document.getElementById("topic-details");
+const searchInput = document.getElementById("searchInput");
 
 
-// Function to display the selected topic
-function showTopic(topic) {
+// ================================
+// DISPLAY TOPIC BUTTONS
+// ================================
 
-    // Remove old topic details
-    const oldDetails = document.getElementById("topic-details");
+function displayTopics(topicList) {
 
-    if (oldDetails) {
-        oldDetails.remove();
+    topicContainer.innerHTML = "";
+
+    if (topicList.length === 0) {
+
+        topicContainer.innerHTML =
+            "<p>No topics found. Try another search.</p>";
+
+        return;
     }
 
 
-    // Create new topic details
-    const details = document.createElement("div");
+    topicList.forEach(topic => {
 
-    details.id = "topic-details";
+        const button = document.createElement("button");
 
-    details.className = "topic-card";
+        button.className = "day-button";
+
+        button.textContent =
+            `Day ${topic.day} | ${topic.category} | ${topic.title}`;
 
 
-    // Topic title
+        button.addEventListener("click", function () {
+
+            showTopic(topic);
+
+        });
+
+
+        topicContainer.appendChild(button);
+
+    });
+
+}
+
+
+// ================================
+// SHOW SELECTED TOPIC
+// ================================
+
+function showTopic(topic) {
+
+    detailsContainer.innerHTML = "";
+
+
     const title = document.createElement("h2");
 
-    title.textContent = `Day ${topic.day} — ${topic.title}`;
+    title.textContent =
+        `Day ${topic.day} — ${topic.title}`;
 
-    details.appendChild(title);
+    detailsContainer.appendChild(title);
 
 
-    // Display all notes
+    // Show category
+
+    const category = document.createElement("p");
+
+    category.innerHTML =
+        `<strong>📂 Category:</strong> ${topic.category}`;
+
+    detailsContainer.appendChild(category);
+
+
+    // Show keywords
+
+    const keywords = document.createElement("p");
+
+    keywords.innerHTML =
+        `<strong>🔑 Keywords:</strong> ${topic.keywords.join(", ")}`;
+
+    detailsContainer.appendChild(keywords);
+
+
+    // Show notes
+
     topic.notes.forEach(note => {
 
         const noteBox = document.createElement("div");
@@ -69,21 +104,62 @@ function showTopic(topic) {
 
         noteBox.appendChild(answer);
 
-        details.appendChild(noteBox);
+        detailsContainer.appendChild(noteBox);
+
     });
 
-
-    // Add details below the buttons
-    topicContainer.appendChild(details);
-
-
-    // Scroll to the selected topic
-    details.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
 }
 
 
-// Automatically show Day 1 when website opens
-showTopic(topics[0]);
+// ================================
+// SEARCH FUNCTION
+// ================================
+
+searchInput.addEventListener("input", function () {
+
+    const searchText =
+        searchInput.value.toLowerCase();
+
+
+    const filteredTopics = topics.filter(topic => {
+
+        const title =
+            topic.title.toLowerCase();
+
+        const category =
+            topic.category.toLowerCase();
+
+        const keywords =
+            topic.keywords
+                .join(" ")
+                .toLowerCase();
+
+
+        return (
+            title.includes(searchText) ||
+            category.includes(searchText) ||
+            keywords.includes(searchText)
+        );
+
+    });
+
+
+    displayTopics(filteredTopics);
+
+});
+
+
+// ================================
+// START WEBSITE
+// ================================
+
+// Display all topics
+displayTopics(topics);
+
+
+// Automatically show first topic
+if (topics.length > 0) {
+
+    showTopic(topics[0]);
+
+}
