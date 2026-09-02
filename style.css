@@ -1,321 +1,728 @@
-/* =========================
-   GENERAL SETTINGS
-========================= */
+/* ========================================
+   GENERAL
+======================================== */
 
 * {
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #222;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f7fb,
+            #eef2f7
+        );
+
+    color: #1f2937;
+
     line-height: 1.6;
 }
 
 
-/* =========================
-   HEADER
-========================= */
+/* ========================================
+   HERO HEADER
+======================================== */
 
-header {
-    background: #1f2937;
+.hero {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #1e3a8a
+        );
+
     color: white;
-    text-align: center;
-    padding: 35px 20px;
+
+    padding: 50px 20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.15);
 }
 
-header h1 {
+
+.hero-content {
+
+    max-width: 1100px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.logo {
+
+    width: 75px;
+
+    height: 75px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 38px;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    border-radius: 20px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.2);
+}
+
+
+.hero h1 {
+
     margin: 0;
-    font-size: 32px;
+
+    font-size: 38px;
+
+    letter-spacing: 1px;
 }
 
-header p {
-    margin-top: 8px;
-    font-size: 18px;
+
+.hero-title {
+
+    margin: 5px 0;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #93c5fd;
 }
 
 
-/* =========================
-   MAIN CONTENT
-========================= */
+.hero-subtitle {
+
+    margin: 0;
+
+    color: #dbeafe;
+
+    font-size: 16px;
+}
+
+
+/* ========================================
+   MAIN
+======================================== */
 
 main {
-    max-width: 900px;
-    margin: 30px auto;
+
+    max-width: 1100px;
+
+    margin: 40px auto;
+
     padding: 0 20px;
 }
 
 
-/* =========================
-   MAIN SECTIONS
-========================= */
+/* ========================================
+   GENERAL SECTIONS
+======================================== */
 
 section {
+
     background: white;
-    padding: 25px;
+
+    padding: 28px;
+
     margin-bottom: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+
+    border-radius: 18px;
+
+    box-shadow:
+
+        0 8px 25px
+        rgba(15,23,42,0.06);
 }
+
 
 section h2 {
+
     margin-top: 0;
-    color: #1f2937;
+
+    color: #0f172a;
 }
 
 
-/* =========================
-   TOPIC CARDS
-========================= */
+/* ========================================
+   WELCOME
+======================================== */
 
-.topic-card {
-    border-left: 5px solid #2563eb;
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #f8fafc;
-    border-radius: 10px;
-}
+.welcome-section {
 
-.topic-card h2 {
-    margin-top: 0;
-    color: #1f2937;
+    border-left:
+        6px solid #2563eb;
 }
 
 
-/* =========================
-   NOTES
-========================= */
+.welcome-section h2 {
 
-.note {
+    margin-bottom: 5px;
+}
+
+
+.welcome-section p {
+
+    margin: 0;
+
+    color: #64748b;
+}
+
+
+/* ========================================
+   DASHBOARD STATS
+======================================== */
+
+.stats-section {
+
+    display: grid;
+
+    grid-template-columns:
+
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    background: transparent;
+
+    box-shadow: none;
+
+    padding: 0;
+}
+
+
+.stat-card {
+
     background: white;
-    padding: 15px;
-    margin-top: 12px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    box-shadow:
+
+        0 8px 25px
+        rgba(15,23,42,0.08);
+
+    transition: 0.25s;
 }
 
-.note h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-size: 18px;
+
+.stat-card:hover {
+
+    transform:
+        translateY(-5px);
+}
+
+
+.stat-icon {
+
+    font-size: 30px;
+}
+
+
+.stat-card h3 {
+
+    font-size: 30px;
+
+    margin: 8px 0;
+
     color: #2563eb;
 }
 
-.note p {
-    margin-bottom: 0;
+
+.stat-card p {
+
+    margin: 0;
+
+    color: #64748b;
 }
 
 
-/* =========================
-   FOOTER
-========================= */
+/* ========================================
+   SEARCH
+======================================== */
 
-footer {
-    text-align: center;
-    padding: 20px;
-    color: #666;
+.search-section p {
+
+    color: #64748b;
 }
 
 
-/* =========================
-   MOBILE DESIGN
-========================= */
+#searchInput {
 
-@media (max-width: 600px) {
-
-    header {
-        padding: 25px 15px;
-    }
-
-    header h1 {
-        font-size: 25px;
-    }
-
-    header p {
-        font-size: 16px;
-    }
-
-    main {
-        margin: 20px auto;
-        padding: 0 12px;
-    }
-
-    section {
-        padding: 18px;
-    }
-
-    .topic-card {
-        padding: 15px;
-    }
-
-    .topic-card h2 {
-        font-size: 20px;
-    }
-
-    .note {
-        padding: 12px;
-    }
-
-    .note h3 {
-        font-size: 16px;
-    }
-/* =========================
-   DAY BUTTONS
-========================= */
-
-.day-button {
     width: 100%;
-    display: block;
-    padding: 15px 20px;
-    margin-bottom: 10px;
 
-    background: #ffffff;
-    color: #1f2937;
+    padding: 16px 18px;
 
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    margin-top: 10px;
 
     font-size: 16px;
+
+    border:
+
+        2px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    transition: 0.2s;
+
+    background: #f8fafc;
+}
+
+
+#searchInput:focus {
+
+    border-color: #2563eb;
+
+    background: white;
+
+    box-shadow:
+
+        0 0 0 4px
+        rgba(37,99,235,0.1);
+}
+
+
+/* ========================================
+   CATEGORY BUTTONS
+======================================== */
+
+#category-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+
+.category-button {
+
+    padding: 10px 18px;
+
+    border:
+
+        1px solid #dbeafe;
+
+    border-radius: 25px;
+
+    background: #f8fafc;
+
+    color: #2563eb;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+
+.category-button:hover {
+
+    background: #dbeafe;
+
+    transform:
+        translateY(-2px);
+}
+
+
+.category-button.active {
+
+    background: #2563eb;
+
+    color: white;
+
+    border-color: #2563eb;
+}
+
+
+/* ========================================
+   TOPIC BUTTONS
+======================================== */
+
+.day-button {
+
+    width: 100%;
+
+    display: block;
+
+    padding: 20px;
+
+    margin-bottom: 12px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    color: #1e293b;
+
+    border:
+
+        1px solid #e2e8f0;
+
+    border-radius: 14px;
+
+    font-size: 16px;
+
     font-weight: bold;
 
     text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    position: relative;
+}
+
+
+.day-button:hover {
+
+    border-color: #2563eb;
+
+    transform:
+
+        translateX(6px);
+
+    box-shadow:
+
+        0 8px 20px
+        rgba(37,99,235,0.12);
+}
+
+
+.day-button::after {
+
+    content: "→";
+
+    position: absolute;
+
+    right: 20px;
+
+    font-size: 22px;
+
+    color: #2563eb;
+}
+
+
+/* ========================================
+   SECTION HEADING
+======================================== */
+
+.section-heading {
+
+    margin-bottom: 20px;
+}
+
+
+.section-heading h2 {
+
+    margin-bottom: 5px;
+}
+
+
+.section-heading p {
+
+    margin: 0;
+
+    color: #64748b;
+}
+
+
+/* ========================================
+   TOPIC DETAILS
+======================================== */
+
+#topic-details {
+
+    margin-top: 20px;
+}
+
+
+#topic-details > h2 {
+
+    color: #1d4ed8;
+}
+
+
+#topic-details > p {
+
+    color: #475569;
+}
+
+
+/* ========================================
+   REVISION NOTES
+======================================== */
+
+.note {
+
+    background: #f8fafc;
+
+    padding: 20px;
+
+    margin-top: 15px;
+
+    border-radius: 14px;
+
+    border:
+
+        1px solid #e2e8f0;
+
+    transition: 0.2s;
+}
+
+
+.note:hover {
+
+    border-color: #bfdbfe;
+}
+
+
+.note h3 {
+
+    margin-top: 0;
+
+    margin-bottom: 12px;
+
+    font-size: 18px;
+
+    color: #1e40af;
+}
+
+
+/* ========================================
+   ANSWER BUTTON
+======================================== */
+
+.answer-button {
+
+    margin-top: 8px;
+
+    padding: 10px 18px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
     cursor: pointer;
 
     transition: 0.2s;
 }
 
-.day-button:hover {
-    background: #eef4ff;
-    transform: translateX(5px);
-}
-
-
-/* =========================
-   SELECTED TOPIC
-========================= */
-
-#topic-details {
-    margin-top: 30px;
-}
-/* =========================
-   SEARCH BOX
-========================= */
-
-#searchInput {
-    width: 100%;
-    padding: 15px;
-
-    font-size: 16px;
-
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-
-    outline: none;
-}
-/* =========================
-   ANSWER BUTTON
-========================= */
-
-.answer-button {
-    margin-top: 10px;
-    padding: 10px 15px;
-
-    background: #2563eb;
-    color: white;
-
-    border: none;
-    border-radius: 6px;
-
-    font-size: 14px;
-    cursor: pointer;
-}
 
 .answer-button:hover {
-    opacity: 0.85;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+
+        0 5px 15px
+        rgba(37,99,235,0.3);
 }
 
 
-/* =========================
+/* ========================================
    ANSWER
-========================= */
+======================================== */
 
 .answer {
+
     margin-top: 15px;
-    padding: 12px;
 
-    background: #f0fdf4;
+    padding: 15px;
 
-    border-left: 4px solid #22c55e;
+    background: #ecfdf5;
 
-    border-radius: 5px;
-}
+    border-left:
 
-#searchInput:focus {
-    border-color: #2563eb;
-}
+        4px solid #22c55e;
 
+    border-radius: 8px;
 
-/* =========================
-   TOPIC DETAILS
-========================= */
+    color: #166534;
 
-#details-section {
-    margin-top: 25px;
-}
+    animation:
 
-#topic-details {
-    margin-top: 15px;
-}
-/* =================================
-   CATEGORY SECTION
-================================= */
-
-.category-section {
-    margin: 20px 0;
-}
-
-.category-section h3 {
-    margin-bottom: 10px;
+        fadeIn 0.3s ease;
 }
 
 
-/* =================================
-   CATEGORY BUTTONS
-================================= */
+@keyframes fadeIn {
 
-.category-button {
-    padding: 10px 16px;
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-5px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+footer {
+
+    text-align: center;
+
+    padding: 30px 20px;
+
+    color: #64748b;
+}
+
+
+footer p {
 
     margin: 5px;
-
-    border: 1px solid #2563eb;
-
-    border-radius: 20px;
-
-    background: white;
-
-    color: #2563eb;
-
-    cursor: pointer;
-
-    font-size: 14px;
 }
 
 
-/* Hover */
+.footer-small {
 
-.category-button:hover {
-    background: #2563eb;
-    color: white;
+    font-size: 13px;
 }
 
 
-/* Selected category */
+/* ========================================
+   MOBILE DESIGN
+======================================== */
 
-.category-button.active {
-    background: #2563eb;
-    color: white;
-}
+@media (max-width: 700px) {
+
+    .hero {
+
+        padding: 35px 20px;
+    }
+
+
+    .hero-content {
+
+        align-items: flex-start;
+    }
+
+
+    .logo {
+
+        width: 60px;
+
+        height: 60px;
+
+        font-size: 30px;
+    }
+
+
+    .hero h1 {
+
+        font-size: 27px;
+    }
+
+
+    .hero-title {
+
+        font-size: 18px;
+    }
+
+
+    main {
+
+        margin: 25px auto;
+
+        padding: 0 14px;
+    }
+
+
+    section {
+
+        padding: 20px;
+
+        border-radius: 15px;
+    }
+
+
+    .stats-section {
+
+        grid-template-columns:
+
+            1fr;
+    }
+
+
+    .day-button {
+
+        padding: 18px;
+
+        padding-right: 45px;
+
+        font-size: 14px;
+    }
+
+
+    .note {
+
+        padding: 16px;
+    }
+
 }
