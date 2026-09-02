@@ -1,6 +1,13 @@
+// ========================================
+// GET HTML ELEMENTS
+// ========================================
+
 const topicContainer = document.getElementById("topics");
+
 const detailsContainer = document.getElementById("topic-details");
+
 const searchInput = document.getElementById("searchInput");
+
 const categoryContainer = document.getElementById("category-buttons");
 
 
@@ -17,32 +24,58 @@ let selectedCategory = "All";
 
 function displayTopics(topicList) {
 
+    // Clear existing topics
+
     topicContainer.innerHTML = "";
+
+
+    // No topics found
 
     if (topicList.length === 0) {
 
-        topicContainer.innerHTML =
-            "<p>❌ No topics found.</p>";
+        topicContainer.innerHTML = `
+            <p class="no-results">
+                ❌ No topics found. Try another search.
+            </p>
+        `;
 
         return;
+
     }
 
 
-    topicList.forEach(function(topic) {
+    // Create topic buttons
+
+    topicList.forEach(function (topic) {
 
         const button = document.createElement("button");
 
         button.className = "day-button";
 
+
+        // Topic text
+
         button.textContent =
             "Day " + topic.day +
-            " | " + topic.category +
+            " | 📂 " + topic.category +
             " | " + topic.title;
 
 
-        button.onclick = function() {
+        // When topic is clicked
+
+        button.onclick = function () {
 
             showTopic(topic);
+
+
+            // Automatically scroll to revision notes
+
+            document
+                .getElementById("details-section")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
 
         };
 
@@ -60,21 +93,29 @@ function displayTopics(topicList) {
 
 function showTopic(topic) {
 
+    // Clear previous topic
+
     detailsContainer.innerHTML = "";
 
 
-    // TITLE
+    // ========================================
+    // TOPIC TITLE
+    // ========================================
 
     const title = document.createElement("h2");
 
     title.textContent =
-        "Day " + topic.day +
-        " — " + topic.title;
+        "⚡ Day " +
+        topic.day +
+        " — " +
+        topic.title;
 
     detailsContainer.appendChild(title);
 
 
+    // ========================================
     // CATEGORY
+    // ========================================
 
     const category = document.createElement("p");
 
@@ -85,7 +126,9 @@ function showTopic(topic) {
     detailsContainer.appendChild(category);
 
 
+    // ========================================
     // KEYWORDS
+    // ========================================
 
     const keywords = document.createElement("p");
 
@@ -96,9 +139,13 @@ function showTopic(topic) {
     detailsContainer.appendChild(keywords);
 
 
-    // QUESTIONS
+    // ========================================
+    // QUESTIONS AND ANSWERS
+    // ========================================
 
-    topic.notes.forEach(function(note) {
+    topic.notes.forEach(function (note, index) {
+
+        // Create note box
 
         const noteBox =
             document.createElement("div");
@@ -106,16 +153,23 @@ function showTopic(topic) {
         noteBox.className = "note";
 
 
-        // QUESTION
+        // ----------------------------------------
+        // QUESTION NUMBER + QUESTION
+        // ----------------------------------------
 
         const question =
             document.createElement("h3");
 
         question.textContent =
-            "❓ " + note.question;
+            "❓ Question " +
+            (index + 1) +
+            ": " +
+            note.question;
 
 
-        // ANSWER BUTTON
+        // ----------------------------------------
+        // SHOW ANSWER BUTTON
+        // ----------------------------------------
 
         const answerButton =
             document.createElement("button");
@@ -127,7 +181,9 @@ function showTopic(topic) {
             "👀 Show Answer";
 
 
+        // ----------------------------------------
         // ANSWER
+        // ----------------------------------------
 
         const answer =
             document.createElement("p");
@@ -136,14 +192,20 @@ function showTopic(topic) {
             "answer";
 
         answer.textContent =
-            "💡 " + note.answer;
+            "💡 " +
+            note.answer;
+
+
+        // Hide answer initially
 
         answer.hidden = true;
 
 
-        // SHOW / HIDE
+        // ----------------------------------------
+        // SHOW / HIDE ANSWER
+        // ----------------------------------------
 
-        answerButton.onclick = function() {
+        answerButton.onclick = function () {
 
             if (answer.hidden) {
 
@@ -152,7 +214,9 @@ function showTopic(topic) {
                 answerButton.textContent =
                     "🙈 Hide Answer";
 
-            } else {
+            }
+
+            else {
 
                 answer.hidden = true;
 
@@ -163,6 +227,10 @@ function showTopic(topic) {
 
         };
 
+
+        // ----------------------------------------
+        // ADD ELEMENTS
+        // ----------------------------------------
 
         noteBox.appendChild(question);
 
@@ -183,15 +251,19 @@ function showTopic(topic) {
 
 function createCategoryButtons() {
 
+    // Clear old buttons
+
     categoryContainer.innerHTML = "";
 
 
-    // Get unique categories
+    // Default category
 
     const categories = ["All"];
 
 
-    topics.forEach(function(topic) {
+    // Get unique categories from data.js
+
+    topics.forEach(function (topic) {
 
         if (!categories.includes(topic.category)) {
 
@@ -204,7 +276,7 @@ function createCategoryButtons() {
 
     // Create buttons
 
-    categories.forEach(function(category) {
+    categories.forEach(function (category) {
 
         const button =
             document.createElement("button");
@@ -227,13 +299,19 @@ function createCategoryButtons() {
         }
 
 
-        // Click
+        // When category is clicked
 
-        button.onclick = function() {
+        button.onclick = function () {
 
             selectedCategory = category;
 
+
+            // Recreate buttons
+
             createCategoryButtons();
+
+
+            // Apply search + category filter
 
             applyFilters();
 
@@ -253,20 +331,28 @@ function createCategoryButtons() {
 
 function applyFilters() {
 
+    // Get search text
+
     const searchText =
         searchInput.value
             .toLowerCase()
             .trim();
 
 
+    // Filter topics
+
     const filteredTopics =
-        topics.filter(function(topic) {
+        topics.filter(function (topic) {
 
 
+            // ========================================
             // CATEGORY FILTER
+            // ========================================
 
             const categoryMatch =
+
                 selectedCategory === "All" ||
+
                 topic.category === selectedCategory;
 
 
@@ -277,7 +363,9 @@ function applyFilters() {
             }
 
 
+            // ========================================
             // EMPTY SEARCH
+            // ========================================
 
             if (searchText === "") {
 
@@ -286,25 +374,36 @@ function applyFilters() {
             }
 
 
+            // ========================================
             // DAY
+            // ========================================
 
             const day =
-                String(topic.day).toLowerCase();
+                String(topic.day)
+                    .toLowerCase();
 
 
+            // ========================================
             // CATEGORY
+            // ========================================
 
             const category =
-                String(topic.category).toLowerCase();
+                String(topic.category)
+                    .toLowerCase();
 
 
+            // ========================================
             // TITLE
+            // ========================================
 
             const title =
-                String(topic.title).toLowerCase();
+                String(topic.title)
+                    .toLowerCase();
 
 
+            // ========================================
             // KEYWORDS
+            // ========================================
 
             const keywords =
                 topic.keywords
@@ -312,11 +411,13 @@ function applyFilters() {
                     .toLowerCase();
 
 
+            // ========================================
             // QUESTIONS
+            // ========================================
 
             const questions =
                 topic.notes
-                    .map(function(note) {
+                    .map(function (note) {
 
                         return note.question;
 
@@ -325,11 +426,13 @@ function applyFilters() {
                     .toLowerCase();
 
 
+            // ========================================
             // ANSWERS
+            // ========================================
 
             const answers =
                 topic.notes
-                    .map(function(note) {
+                    .map(function (note) {
 
                         return note.answer;
 
@@ -338,10 +441,14 @@ function applyFilters() {
                     .toLowerCase();
 
 
+            // ========================================
             // DAY SEARCH
+            // ========================================
 
             let dayMatch = false;
 
+
+            // Search: "Day 5"
 
             if (searchText.startsWith("day ")) {
 
@@ -357,6 +464,8 @@ function applyFilters() {
             }
 
 
+            // Search: "5"
+
             else if (/^\d+$/.test(searchText)) {
 
                 dayMatch =
@@ -365,7 +474,9 @@ function applyFilters() {
             }
 
 
+            // ========================================
             // CONTENT SEARCH
+            // ========================================
 
             const contentMatch =
 
@@ -380,10 +491,14 @@ function applyFilters() {
                 answers.includes(searchText);
 
 
+            // Return result
+
             return dayMatch || contentMatch;
 
         });
 
+
+    // Display filtered topics
 
     displayTopics(filteredTopics);
 
@@ -396,7 +511,8 @@ function applyFilters() {
 
 searchInput.addEventListener(
     "input",
-    function() {
+
+    function () {
 
         applyFilters();
 
@@ -405,13 +521,107 @@ searchInput.addEventListener(
 
 
 // ========================================
+// DASHBOARD STATISTICS
+// ========================================
+
+function updateStatistics() {
+
+
+    // ========================================
+    // TOTAL TOPICS
+    // ========================================
+
+    const topicCount =
+        document.getElementById("topicCount");
+
+
+    if (topicCount) {
+
+        topicCount.textContent =
+            topics.length;
+
+    }
+
+
+    // ========================================
+    // TOTAL QUESTIONS
+    // ========================================
+
+    let totalQuestions = 0;
+
+
+    topics.forEach(function (topic) {
+
+        totalQuestions +=
+            topic.notes.length;
+
+    });
+
+
+    const questionCount =
+        document.getElementById("questionCount");
+
+
+    if (questionCount) {
+
+        questionCount.textContent =
+            totalQuestions;
+
+    }
+
+
+    // ========================================
+    // TOTAL CATEGORIES
+    // ========================================
+
+    const categories = [];
+
+
+    topics.forEach(function (topic) {
+
+        if (!categories.includes(topic.category)) {
+
+            categories.push(topic.category);
+
+        }
+
+    });
+
+
+    const categoryCount =
+        document.getElementById("categoryCount");
+
+
+    if (categoryCount) {
+
+        categoryCount.textContent =
+            categories.length;
+
+    }
+
+}
+
+
+// ========================================
 // START WEBSITE
 // ========================================
 
+// Update dashboard statistics
+
+updateStatistics();
+
+
+// Create category buttons
+
 createCategoryButtons();
+
+
+// Display all topics
 
 displayTopics(topics);
 
+
+// Automatically show first topic
 
 if (topics.length > 0) {
 
