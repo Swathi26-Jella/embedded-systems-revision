@@ -6,7 +6,7 @@ const SUPABASE_URL =
     "https://uoewymjhabvcmpoagpfo.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_-kLhpfylr-Bt7vknQjFcjQ_ldsQ6E2m";
+    "sb_publishable_XHY11aIRfMqBiaQDV-05Uw_mp1UGHN7";
 
 
 // ========================================
