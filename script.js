@@ -6,8 +6,25 @@ const SUPABASE_URL =
     "https://uoewymjhabvcmpoagpfo.supabase.co";
 
 const SUPABASE_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvZXd5bWpoYWJ2Y21wb2FncGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNTU2NzYsImV4cCI6MjEwMzkzMTY3Nn0.2-q-mEp4M8M81jRha468P2DlK6nt79AxtiLPpSOBfdk";         SUPABASE_KEY
+    "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+
+// Create Supabase connection
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
+
+
+// ========================================
+// WEBSITE DATA
+// ========================================
+
+let topics = [];
+
+let selectedCategory = "All";
 
 
 // ========================================
@@ -28,30 +45,17 @@ const categoryContainer =
 
 
 // ========================================
-// GLOBAL VARIABLES
-// ========================================
-
-let topics = [];
-
-let selectedCategory = "All";
-
-
-// ========================================
 // LOAD TOPICS FROM SUPABASE
 // ========================================
 
 async function loadTopics() {
 
-    // Show loading message
-
     topicContainer.innerHTML = `
-        <p class="no-results">
+        <p class="loading">
             ⏳ Loading Embedded Systems topics...
         </p>
     `;
 
-
-    // Get data from Supabase
 
     const { data, error } =
         await supabaseClient
@@ -62,7 +66,9 @@ async function loadTopics() {
             });
 
 
-    // Check for errors
+    // ========================================
+    // ERROR
+    // ========================================
 
     if (error) {
 
@@ -74,8 +80,17 @@ async function loadTopics() {
 
         topicContainer.innerHTML = `
             <p class="no-results">
-                ❌ Unable to load topics.
-                Please check Supabase connection.
+                ❌ Could not load topics.
+
+                <br><br>
+
+                Check:
+                <br>
+                1. Supabase key
+                <br>
+                2. RLS policy
+                <br>
+                3. topics table
             </p>
         `;
 
@@ -84,18 +99,18 @@ async function loadTopics() {
     }
 
 
-    // Save topics globally
+    // ========================================
+    // SUCCESS
+    // ========================================
 
     topics = data || [];
 
-
-    // Update website
 
     updateStatistics();
 
     createCategoryButtons();
 
-    displayTopics(topics);
+    applyFilters();
 
 
     // Automatically show first topic
@@ -115,19 +130,19 @@ async function loadTopics() {
 
 function displayTopics(topicList) {
 
-    // Clear existing topics
-
     topicContainer.innerHTML = "";
 
-
-    // No topics found
 
     if (topicList.length === 0) {
 
         topicContainer.innerHTML = `
             <p class="no-results">
-                ❌ No topics found.
-                Try another search.
+                📭 No topics found yet.
+
+                <br><br>
+
+                Your Supabase database is connected,
+                but no topic data is available yet.
             </p>
         `;
 
@@ -136,19 +151,14 @@ function displayTopics(topicList) {
     }
 
 
-    // Create topic buttons
-
     topicList.forEach(function (topic) {
 
         const button =
             document.createElement("button");
 
-
         button.className =
             "day-button";
 
-
-        // Topic text
 
         button.textContent =
             "Day " +
@@ -159,32 +169,22 @@ function displayTopics(topicList) {
             topic.title;
 
 
-        // When topic is clicked
+        button.onclick = function () {
 
-        button.onclick =
-            function () {
-
-                showTopic(topic);
+            showTopic(topic);
 
 
-                // Scroll to details
+            document
+                .getElementById("details-section")
+                .scrollIntoView({
 
-                const detailsSection =
-                    document.getElementById(
-                        "details-section"
-                    );
+                    behavior: "smooth",
 
+                    block: "start"
 
-                if (detailsSection) {
+                });
 
-                    detailsSection.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                }
-
-            };
+        };
 
 
         topicContainer.appendChild(button);
@@ -195,18 +195,16 @@ function displayTopics(topicList) {
 
 
 // ========================================
-// SHOW SELECTED TOPIC
+// SHOW TOPIC
 // ========================================
 
 function showTopic(topic) {
-
-    // Clear previous topic
 
     detailsContainer.innerHTML = "";
 
 
     // ========================================
-    // DAY + TITLE
+    // TITLE
     // ========================================
 
     const title =
@@ -227,73 +225,100 @@ function showTopic(topic) {
     // CATEGORY
     // ========================================
 
-    createSection(
-        "📂 Category",
-        topic.category
-    );
+    if (topic.category) {
+
+        const category =
+            document.createElement("p");
+
+
+        category.innerHTML =
+            "<strong>📂 Category:</strong> " +
+            topic.category;
+
+
+        detailsContainer.appendChild(category);
+
+    }
 
 
     // ========================================
     // SIMPLE EXPLANATION
     // ========================================
 
-    createSection(
-        "🧒 Simple Explanation",
-        topic.simple_explanation
-    );
+    if (topic.simple_explanation) {
+
+        createContentBox(
+            "🧒 Simple Explanation",
+            topic.simple_explanation
+        );
+
+    }
 
 
     // ========================================
     // REAL LIFE EXAMPLE
     // ========================================
 
-    createSection(
-        "🌍 Real-Life Example",
-        topic.real_life_example
-    );
+    if (topic.real_life_example) {
+
+        createContentBox(
+            "🌍 Real-Life Example",
+            topic.real_life_example
+        );
+
+    }
 
 
     // ========================================
     // SYMBOL / UNIT
     // ========================================
 
-    createSection(
-        "🔣 Symbol / Unit",
-        topic.symbol_unit
-    );
+    if (topic.symbol_unit) {
+
+        createContentBox(
+            "🔣 Symbol / Unit",
+            topic.symbol_unit
+        );
+
+    }
 
 
     // ========================================
     // IMPORTANT POINTS
     // ========================================
 
-    createSection(
-        "⭐ Important Points",
-        topic.important_points
-    );
+    if (topic.important_points) {
+
+        createContentBox(
+            "⭐ Important Points",
+            topic.important_points
+        );
+
+    }
 
 
     // ========================================
     // EMBEDDED CONNECTION
     // ========================================
 
-    createSection(
-        "🔗 Embedded Systems Connection",
-        topic.embedded_connections
-    );
+    if (topic.embedded_connection) {
+
+        createContentBox(
+            "⚡ Embedded Systems Connection",
+            topic.embedded_connection
+        );
+
+    }
 
 
     // ========================================
     // FORMULA
     // ========================================
 
-    if (
-        topic.formula &&
-        topic.formula.trim() !== ""
-    ) {
+    if (topic.formula) {
 
-        createSection(
-            "📐 Formula",
+        createContentBox(
+            "🧮 Formula",
             topic.formula
         );
 
@@ -304,12 +329,9 @@ function showTopic(topic) {
     // CODE EXAMPLE
     // ========================================
 
-    if (
-        topic.code_example &&
-        topic.code_example.trim() !== ""
-    ) {
+    if (topic.code_example) {
 
-        createCodeSection(
+        createContentBox(
             "💻 Code Example",
             topic.code_example
         );
@@ -320,37 +342,21 @@ function showTopic(topic) {
 
 
 // ========================================
-// CREATE NORMAL SECTION
+// CREATE CONTENT BOX
 // ========================================
 
-function createSection(
+function createContentBox(
     heading,
     content
 ) {
 
-    // Don't display empty sections
-
-    if (
-        !content ||
-        String(content).trim() === ""
-    ) {
-
-        return;
-
-    }
-
-
-    // Create section box
-
-    const section =
+    const box =
         document.createElement("div");
 
 
-    section.className =
+    box.className =
         "note";
 
-
-    // Heading
 
     const title =
         document.createElement("h3");
@@ -359,8 +365,6 @@ function createSection(
     title.textContent =
         heading;
 
-
-    // Content
 
     const text =
         document.createElement("p");
@@ -370,70 +374,11 @@ function createSection(
         content;
 
 
-    // Add elements
+    box.appendChild(title);
 
-    section.appendChild(title);
+    box.appendChild(text);
 
-    section.appendChild(text);
-
-
-    detailsContainer.appendChild(section);
-
-}
-
-
-// ========================================
-// CREATE CODE SECTION
-// ========================================
-
-function createCodeSection(
-    heading,
-    code
-) {
-
-    const section =
-        document.createElement("div");
-
-
-    section.className =
-        "note";
-
-
-    // Heading
-
-    const title =
-        document.createElement("h3");
-
-
-    title.textContent =
-        heading;
-
-
-    // Code block
-
-    const pre =
-        document.createElement("pre");
-
-
-    const codeElement =
-        document.createElement("code");
-
-
-    codeElement.textContent =
-        code;
-
-
-    pre.appendChild(codeElement);
-
-
-    // Add elements
-
-    section.appendChild(title);
-
-    section.appendChild(pre);
-
-
-    detailsContainer.appendChild(section);
+    detailsContainer.appendChild(box);
 
 }
 
@@ -444,34 +389,18 @@ function createCodeSection(
 
 function createCategoryButtons() {
 
-    // Check element exists
-
-    if (!categoryContainer) {
-
-        return;
-
-    }
-
-
-    // Clear old buttons
-
     categoryContainer.innerHTML = "";
 
 
-    // Default category
+    const categories =
+        ["All"];
 
-    const categories = ["All"];
-
-
-    // Get unique categories
 
     topics.forEach(function (topic) {
 
         if (
             topic.category &&
-            !categories.includes(
-                topic.category
-            )
+            !categories.includes(topic.category)
         ) {
 
             categories.push(
@@ -483,284 +412,153 @@ function createCategoryButtons() {
     });
 
 
-    // Create buttons
+    categories.forEach(function (category) {
 
-    categories.forEach(
-        function (category) {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
+        const button =
+            document.createElement("button");
 
 
-            button.className =
-                "category-button";
+        button.className =
+            "category-button";
 
 
-            button.textContent =
-                category;
+        button.textContent =
+            category;
 
 
-            // Highlight selected category
+        if (
+            category === selectedCategory
+        ) {
 
-            if (
-                category ===
-                selectedCategory
-            ) {
-
-                button.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            // Click event
-
-            button.onclick =
-                function () {
-
-                    selectedCategory =
-                        category;
-
-
-                    // Recreate buttons
-
-                    createCategoryButtons();
-
-
-                    // Apply filters
-
-                    applyFilters();
-
-                };
-
-
-            categoryContainer.appendChild(
-                button
+            button.classList.add(
+                "active"
             );
 
         }
-    );
+
+
+        button.onclick =
+            function () {
+
+                selectedCategory =
+                    category;
+
+
+                createCategoryButtons();
+
+                applyFilters();
+
+            };
+
+
+        categoryContainer.appendChild(
+            button
+        );
+
+    });
 
 }
 
 
 // ========================================
-// SEARCH + CATEGORY FILTER
+// SEARCH + FILTER
 // ========================================
 
 function applyFilters() {
 
-    // Get search text safely
-
     const searchText =
-        searchInput
-            ? searchInput.value
-                .toLowerCase()
-                .trim()
-            : "";
+        searchInput.value
+            .toLowerCase()
+            .trim();
 
-
-    // Filter topics
 
     const filteredTopics =
-        topics.filter(
-            function (topic) {
+        topics.filter(function (topic) {
 
 
-                // ========================================
-                // CATEGORY FILTER
-                // ========================================
+            // CATEGORY FILTER
 
-                const categoryMatch =
+            const categoryMatch =
 
-                    selectedCategory === "All" ||
+                selectedCategory === "All" ||
 
-                    topic.category ===
-                    selectedCategory;
+                topic.category ===
+                selectedCategory;
 
 
-                if (!categoryMatch) {
+            if (!categoryMatch) {
 
-                    return false;
-
-                }
-
-
-                // ========================================
-                // EMPTY SEARCH
-                // ========================================
-
-                if (searchText === "") {
-
-                    return true;
-
-                }
-
-
-                // ========================================
-                // GET ALL SEARCHABLE CONTENT
-                // ========================================
-
-                const day =
-                    String(
-                        topic.day || ""
-                    ).toLowerCase();
-
-
-                const category =
-                    String(
-                        topic.category || ""
-                    ).toLowerCase();
-
-
-                const title =
-                    String(
-                        topic.title || ""
-                    ).toLowerCase();
-
-
-                const explanation =
-                    String(
-                        topic.simple_explanation || ""
-                    ).toLowerCase();
-
-
-                const example =
-                    String(
-                        topic.real_life_example || ""
-                    ).toLowerCase();
-
-
-                const symbol =
-                    String(
-                        topic.symbol_unit || ""
-                    ).toLowerCase();
-
-
-                const important =
-                    String(
-                        topic.important_points || ""
-                    ).toLowerCase();
-
-
-                const connection =
-                    String(
-                        topic.embedded_connections || ""
-                    ).toLowerCase();
-
-
-                const formula =
-                    String(
-                        topic.formula || ""
-                    ).toLowerCase();
-
-
-                const code =
-                    String(
-                        topic.code_example || ""
-                    ).toLowerCase();
-
-
-                // ========================================
-                // DAY SEARCH
-                // ========================================
-
-                let dayMatch = false;
-
-
-                // Search: Day 5
-
-                if (
-                    searchText.startsWith(
-                        "day "
-                    )
-                ) {
-
-                    const searchedDay =
-                        searchText
-                            .replace(
-                                "day ",
-                                ""
-                            )
-                            .trim();
-
-
-                    dayMatch =
-                        day === searchedDay;
-
-                }
-
-
-                // Search: 5
-
-                else if (
-                    /^\d+$/.test(
-                        searchText
-                    )
-                ) {
-
-                    dayMatch =
-                        day === searchText;
-
-                }
-
-
-                // ========================================
-                // CONTENT SEARCH
-                // ========================================
-
-                const contentMatch =
-
-                    category.includes(
-                        searchText
-                    ) ||
-
-                    title.includes(
-                        searchText
-                    ) ||
-
-                    explanation.includes(
-                        searchText
-                    ) ||
-
-                    example.includes(
-                        searchText
-                    ) ||
-
-                    symbol.includes(
-                        searchText
-                    ) ||
-
-                    important.includes(
-                        searchText
-                    ) ||
-
-                    connection.includes(
-                        searchText
-                    ) ||
-
-                    formula.includes(
-                        searchText
-                    ) ||
-
-                    code.includes(
-                        searchText
-                    );
-
-
-                return (
-                    dayMatch ||
-                    contentMatch
-                );
+                return false;
 
             }
-        );
 
 
-    // Display results
+            // EMPTY SEARCH
+
+            if (searchText === "") {
+
+                return true;
+
+            }
+
+
+            // SEARCHABLE CONTENT
+
+            const searchableText =
+
+                String(topic.day || "") +
+
+                " " +
+
+                String(topic.category || "") +
+
+                " " +
+
+                String(topic.title || "") +
+
+                " " +
+
+                String(
+                    topic.simple_explanation || ""
+                ) +
+
+                " " +
+
+                String(
+                    topic.real_life_example || ""
+                ) +
+
+                " " +
+
+                String(
+                    topic.important_points || ""
+                ) +
+
+                " " +
+
+                String(
+                    topic.embedded_connection || ""
+                ) +
+
+                " " +
+
+                String(
+                    topic.formula || ""
+                ) +
+
+                " " +
+
+                String(
+                    topic.code_example || ""
+                );
+
+
+            return searchableText
+                .toLowerCase()
+                .includes(searchText);
+
+        });
+
 
     displayTopics(filteredTopics);
 
@@ -771,108 +569,66 @@ function applyFilters() {
 // SEARCH EVENT
 // ========================================
 
-if (searchInput) {
+searchInput.addEventListener(
+    "input",
 
-    searchInput.addEventListener(
-        "input",
+    function () {
 
-        function () {
+        applyFilters();
 
-            applyFilters();
+    }
 
-        }
-    );
-
-}
+);
 
 
 // ========================================
-// DASHBOARD STATISTICS
+// UPDATE STATISTICS
 // ========================================
 
 function updateStatistics() {
 
-    // ========================================
+
     // TOTAL TOPICS
-    // ========================================
 
-    const topicCount =
-        document.getElementById(
-            "topicCount"
-        );
-
-
-    if (topicCount) {
-
-        topicCount.textContent =
-            topics.length;
-
-    }
+    document
+        .getElementById("topicCount")
+        .textContent =
+        topics.length;
 
 
-    // ========================================
-    // TOTAL CATEGORIES
-    // ========================================
+    // REVISION QUESTIONS
 
-    const categories = [];
+    // We will create a questions table later
+
+    document
+        .getElementById("questionCount")
+        .textContent =
+        "0";
 
 
-    topics.forEach(
-        function (topic) {
+    // CATEGORIES
 
-            if (
-                topic.category &&
-                !categories.includes(
-                    topic.category
-                )
-            ) {
+    const categories =
+        new Set();
 
-                categories.push(
-                    topic.category
-                );
 
-            }
+    topics.forEach(function (topic) {
+
+        if (topic.category) {
+
+            categories.add(
+                topic.category
+            );
 
         }
-    );
+
+    });
 
 
-    const categoryCount =
-        document.getElementById(
-            "categoryCount"
-        );
-
-
-    if (categoryCount) {
-
-        categoryCount.textContent =
-            categories.length;
-
-    }
-
-
-    // ========================================
-    // REVISION QUESTIONS
-    // ========================================
-
-    // Currently each database row
-    // represents one learning topic.
-    //
-    // Quiz questions will be added later
-    // in a separate Supabase table.
-
-    const questionCount =
-        document.getElementById(
-            "questionCount"
-        );
-
-
-    if (questionCount) {
-
-        questionCount.textContent =
-            "0";
-
-    }
+    document
+        .getElementById("categoryCount")
+        .textContent =
+        categories.size;
 
 }
 
@@ -881,12 +637,4 @@ function updateStatistics() {
 // START WEBSITE
 // ========================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-
-    function () {
-
-        loadTopics();
-
-    }
-);
+loadTopics();
