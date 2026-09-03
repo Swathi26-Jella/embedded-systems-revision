@@ -9,26 +9,22 @@ const SUPABASE_KEY =
     "sb_publishable_-kLhpfylr-Bt7vknQjFcjQ_ldsQ6E2m";
 
 
-// Create Supabase connection
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-
 // ========================================
 // WEBSITE DATA
 // ========================================
 
-let topics = [];
+// Start with backup data immediately
+
+let topics =
+    typeof backupTopics !== "undefined"
+        ? [...backupTopics]
+        : [];
 
 let selectedCategory = "All";
 
 
 // ========================================
-// GET HTML ELEMENTS
+// HTML ELEMENTS
 // ========================================
 
 const topicContainer =
@@ -45,87 +41,7 @@ const categoryContainer =
 
 
 // ========================================
-// LOAD TOPICS FROM SUPABASE
-// ========================================
-
-async function loadTopics() {
-
-    topicContainer.innerHTML = `
-        <p class="loading">
-            ⏳ Loading Embedded Systems topics...
-        </p>
-    `;
-
-
-    const { data, error } =
-        await supabaseClient
-            .from("topics")
-            .select("*")
-            .order("day", {
-                ascending: true
-            });
-
-
-    // ========================================
-    // ERROR
-    // ========================================
-
-    if (error) {
-
-        console.error(
-            "Supabase error:",
-            error
-        );
-
-
-        topicContainer.innerHTML = `
-            <p class="no-results">
-                ❌ Could not load topics.
-
-                <br><br>
-
-                Check:
-                <br>
-                1. Supabase key
-                <br>
-                2. RLS policy
-                <br>
-                3. topics table
-            </p>
-        `;
-
-        return;
-
-    }
-
-
-    // ========================================
-    // SUCCESS
-    // ========================================
-
-    topics = data || [];
-
-
-    updateStatistics();
-
-    createCategoryButtons();
-
-    applyFilters();
-
-
-    // Automatically show first topic
-
-    if (topics.length > 0) {
-
-        showTopic(topics[0]);
-
-    }
-
-}
-
-
-// ========================================
-// DISPLAY TOPIC LIST
+// DISPLAY TOPICS
 // ========================================
 
 function displayTopics(topicList) {
@@ -133,16 +49,11 @@ function displayTopics(topicList) {
     topicContainer.innerHTML = "";
 
 
-    if (topicList.length === 0) {
+    if (!topicList || topicList.length === 0) {
 
         topicContainer.innerHTML = `
             <p class="no-results">
-                📭 No topics found yet.
-
-                <br><br>
-
-                Your Supabase database is connected,
-                but no topic data is available yet.
+                📭 No topics found.
             </p>
         `;
 
@@ -156,35 +67,30 @@ function displayTopics(topicList) {
         const button =
             document.createElement("button");
 
-        button.className =
-            "day-button";
+
+        button.className = "day-button";
 
 
         button.textContent =
-            "Day " +
-            topic.day +
-            " | 📂 " +
-            topic.category +
-            " | " +
-            topic.title;
+            "Day " + topic.day +
+            " | 📂 " + topic.category +
+            " | " + topic.title;
 
 
-        button.onclick = function () {
+        button.addEventListener(
+            "click",
+            function () {
 
-            showTopic(topic);
+                showTopic(topic);
 
+                document
+                    .getElementById("details-section")
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
 
-            document
-                .getElementById("details-section")
-                .scrollIntoView({
-
-                    behavior: "smooth",
-
-                    block: "start"
-
-                });
-
-        };
+            }
+        );
 
 
         topicContainer.appendChild(button);
@@ -203,13 +109,8 @@ function showTopic(topic) {
     detailsContainer.innerHTML = "";
 
 
-    // ========================================
-    // TITLE
-    // ========================================
-
     const title =
         document.createElement("h2");
-
 
     title.textContent =
         "⚡ Day " +
@@ -217,164 +118,82 @@ function showTopic(topic) {
         " — " +
         topic.title;
 
-
     detailsContainer.appendChild(title);
 
 
-    // ========================================
-    // CATEGORY
-    // ========================================
+    addContent(
+        "📂 Category",
+        topic.category
+    );
 
-    if (topic.category) {
+    addContent(
+        "🧒 Simple Explanation",
+        topic.simple_explanation
+    );
 
-        const category =
-            document.createElement("p");
+    addContent(
+        "🌍 Real-Life Example",
+        topic.real_life_example
+    );
 
+    addContent(
+        "🔣 Symbol / Unit",
+        topic.symbol_unit
+    );
 
-        category.innerHTML =
-            "<strong>📂 Category:</strong> " +
-            topic.category;
+    addContent(
+        "⭐ Important Points",
+        topic.important_points
+    );
 
+    addContent(
+        "⚡ Embedded Systems Connection",
+        topic.embedded_connection
+    );
 
-        detailsContainer.appendChild(category);
+    addContent(
+        "🧮 Formula",
+        topic.formula
+    );
 
-    }
-
-
-    // ========================================
-    // SIMPLE EXPLANATION
-    // ========================================
-
-    if (topic.simple_explanation) {
-
-        createContentBox(
-            "🧒 Simple Explanation",
-            topic.simple_explanation
-        );
-
-    }
-
-
-    // ========================================
-    // REAL LIFE EXAMPLE
-    // ========================================
-
-    if (topic.real_life_example) {
-
-        createContentBox(
-            "🌍 Real-Life Example",
-            topic.real_life_example
-        );
-
-    }
-
-
-    // ========================================
-    // SYMBOL / UNIT
-    // ========================================
-
-    if (topic.symbol_unit) {
-
-        createContentBox(
-            "🔣 Symbol / Unit",
-            topic.symbol_unit
-        );
-
-    }
-
-
-    // ========================================
-    // IMPORTANT POINTS
-    // ========================================
-
-    if (topic.important_points) {
-
-        createContentBox(
-            "⭐ Important Points",
-            topic.important_points
-        );
-
-    }
-
-
-    // ========================================
-    // EMBEDDED CONNECTION
-    // ========================================
-
-    if (topic.embedded_connection) {
-
-        createContentBox(
-            "⚡ Embedded Systems Connection",
-            topic.embedded_connection
-        );
-
-    }
-
-
-    // ========================================
-    // FORMULA
-    // ========================================
-
-    if (topic.formula) {
-
-        createContentBox(
-            "🧮 Formula",
-            topic.formula
-        );
-
-    }
-
-
-    // ========================================
-    // CODE EXAMPLE
-    // ========================================
-
-    if (topic.code_example) {
-
-        createContentBox(
-            "💻 Code Example",
-            topic.code_example
-        );
-
-    }
+    addContent(
+        "💻 Code Example",
+        topic.code_example
+    );
 
 }
 
 
 // ========================================
-// CREATE CONTENT BOX
+// ADD CONTENT BOX
 // ========================================
 
-function createContentBox(
-    heading,
-    content
-) {
+function addContent(heading, content) {
+
+    if (!content || content.trim() === "") {
+        return;
+    }
+
 
     const box =
         document.createElement("div");
 
-
-    box.className =
-        "note";
+    box.className = "note";
 
 
-    const title =
+    const headingElement =
         document.createElement("h3");
 
-
-    title.textContent =
-        heading;
+    headingElement.textContent = heading;
 
 
     const text =
         document.createElement("p");
 
-
-    text.textContent =
-        content;
+    text.textContent = content;
 
 
-    box.appendChild(title);
+    box.appendChild(headingElement);
 
     box.appendChild(text);
 
@@ -384,7 +203,7 @@ function createContentBox(
 
 
 // ========================================
-// CREATE CATEGORY BUTTONS
+// CATEGORY BUTTONS
 // ========================================
 
 function createCategoryButtons() {
@@ -392,8 +211,7 @@ function createCategoryButtons() {
     categoryContainer.innerHTML = "";
 
 
-    const categories =
-        ["All"];
+    const categories = ["All"];
 
 
     topics.forEach(function (topic) {
@@ -403,9 +221,7 @@ function createCategoryButtons() {
             !categories.includes(topic.category)
         ) {
 
-            categories.push(
-                topic.category
-            );
+            categories.push(topic.category);
 
         }
 
@@ -417,43 +233,35 @@ function createCategoryButtons() {
         const button =
             document.createElement("button");
 
-
         button.className =
             "category-button";
 
 
-        button.textContent =
-            category;
+        button.textContent = category;
 
 
-        if (
-            category === selectedCategory
-        ) {
+        if (category === selectedCategory) {
 
-            button.classList.add(
-                "active"
-            );
+            button.classList.add("active");
 
         }
 
 
-        button.onclick =
+        button.addEventListener(
+            "click",
             function () {
 
-                selectedCategory =
-                    category;
-
+                selectedCategory = category;
 
                 createCategoryButtons();
 
                 applyFilters();
 
-            };
-
-
-        categoryContainer.appendChild(
-            button
+            }
         );
+
+
+        categoryContainer.appendChild(button);
 
     });
 
@@ -476,86 +284,44 @@ function applyFilters() {
         topics.filter(function (topic) {
 
 
-            // CATEGORY FILTER
+            // CATEGORY
 
             const categoryMatch =
-
                 selectedCategory === "All" ||
-
-                topic.category ===
-                selectedCategory;
+                topic.category === selectedCategory;
 
 
             if (!categoryMatch) {
-
                 return false;
-
             }
 
 
             // EMPTY SEARCH
 
             if (searchText === "") {
-
                 return true;
-
             }
 
 
-            // SEARCHABLE CONTENT
+            // SEARCH ALL CONTENT
 
-            const searchableText =
-
-                String(topic.day || "") +
-
-                " " +
-
-                String(topic.category || "") +
-
-                " " +
-
-                String(topic.title || "") +
-
-                " " +
-
-                String(
-                    topic.simple_explanation || ""
-                ) +
-
-                " " +
-
-                String(
-                    topic.real_life_example || ""
-                ) +
-
-                " " +
-
-                String(
-                    topic.important_points || ""
-                ) +
-
-                " " +
-
-                String(
-                    topic.embedded_connection || ""
-                ) +
-
-                " " +
-
-                String(
-                    topic.formula || ""
-                ) +
-
-                " " +
-
-                String(
-                    topic.code_example || ""
-                );
+            const content =
+                `
+                ${topic.day || ""}
+                ${topic.category || ""}
+                ${topic.title || ""}
+                ${topic.simple_explanation || ""}
+                ${topic.real_life_example || ""}
+                ${topic.symbol_unit || ""}
+                ${topic.important_points || ""}
+                ${topic.embedded_connection || ""}
+                ${topic.formula || ""}
+                ${topic.code_example || ""}
+                `
+                .toLowerCase();
 
 
-            return searchableText
-                .toLowerCase()
-                .includes(searchText);
+            return content.includes(searchText);
 
         });
 
@@ -566,29 +332,10 @@ function applyFilters() {
 
 
 // ========================================
-// SEARCH EVENT
-// ========================================
-
-searchInput.addEventListener(
-    "input",
-
-    function () {
-
-        applyFilters();
-
-    }
-
-);
-
-
-// ========================================
-// UPDATE STATISTICS
+// STATISTICS
 // ========================================
 
 function updateStatistics() {
-
-
-    // TOTAL TOPICS
 
     document
         .getElementById("topicCount")
@@ -596,17 +343,12 @@ function updateStatistics() {
         topics.length;
 
 
-    // REVISION QUESTIONS
-
-    // We will create a questions table later
+    // Questions will be added later
 
     document
         .getElementById("questionCount")
-        .textContent =
-        "0";
+        .textContent = "0";
 
-
-    // CATEGORIES
 
     const categories =
         new Set();
@@ -616,9 +358,7 @@ function updateStatistics() {
 
         if (topic.category) {
 
-            categories.add(
-                topic.category
-            );
+            categories.add(topic.category);
 
         }
 
@@ -634,7 +374,157 @@ function updateStatistics() {
 
 
 // ========================================
+// LOAD SUPABASE
+// ========================================
+
+async function loadFromSupabase() {
+
+    // If key is not configured, use backup data
+
+    if (
+        SUPABASE_KEY ===
+        "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
+    ) {
+
+        console.log(
+            "Supabase key not added. Using backup data."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        // Check Supabase library
+
+        if (!window.supabase) {
+
+            console.error(
+                "Supabase library did not load."
+            );
+
+            return;
+
+        }
+
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        const { data, error } =
+            await supabaseClient
+                .from("topics")
+                .select("*")
+                .order("day", {
+                    ascending: true
+                });
+
+
+        if (error) {
+
+            console.error(
+                "Supabase error:",
+                error
+            );
+
+            // Keep backup topics
+
+            return;
+
+        }
+
+
+        // Only replace backup data
+        // if Supabase actually has data
+
+        if (
+            data &&
+            data.length > 0
+        ) {
+
+            topics = data;
+
+            console.log(
+                "Topics loaded from Supabase:",
+                topics.length
+            );
+
+        }
+
+        else {
+
+            console.log(
+                "Supabase has no topics yet. Using backup data."
+            );
+
+        }
+
+
+        refreshWebsite();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Connection error:",
+            error
+        );
+
+        // Website continues using backup data
+
+    }
+
+}
+
+
+// ========================================
+// REFRESH WEBSITE
+// ========================================
+
+function refreshWebsite() {
+
+    updateStatistics();
+
+    createCategoryButtons();
+
+    applyFilters();
+
+
+    if (topics.length > 0) {
+
+        showTopic(topics[0]);
+
+    }
+
+}
+
+
+// ========================================
+// SEARCH EVENT
+// ========================================
+
+searchInput.addEventListener(
+    "input",
+    applyFilters
+);
+
+
+// ========================================
 // START WEBSITE
 // ========================================
 
-loadTopics();
+// Show website immediately
+
+refreshWebsite();
+
+
+// Try Supabase in background
+
+loadFromSupabase();
