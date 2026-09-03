@@ -1,127 +1,44 @@
 /* ========================================
-   GENERAL
+   GLOBAL
 ======================================== */
 
 * {
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     margin: 0;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f4f7fb,
-            #eef2f7
-        );
-
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
     color: #1f2937;
-
-    line-height: 1.6;
 }
 
 
 /* ========================================
-   HERO HEADER
+   HEADER
 ======================================== */
 
-.hero {
-
-    background:
-        linear-gradient(
-            135deg,
-            #0f172a,
-            #1e3a8a
-        );
-
+header {
+    background: linear-gradient(135deg, #0f172a, #1e3a5f);
     color: white;
-
-    padding: 50px 20px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.15);
+    text-align: center;
+    padding: 35px 20px;
 }
-
-
-.hero-content {
-
-    max-width: 1100px;
-
-    margin: auto;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-}
-
 
 .logo {
-
-    width: 75px;
-
-    height: 75px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 38px;
-
-    background:
-        rgba(255,255,255,0.12);
-
-    border-radius: 20px;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.2);
-}
-
-
-.hero h1 {
-
-    margin: 0;
-
-    font-size: 38px;
-
-    letter-spacing: 1px;
-}
-
-
-.hero-title {
-
-    margin: 5px 0;
-
-    font-size: 22px;
-
+    font-size: 32px;
     font-weight: bold;
-
-    color: #93c5fd;
 }
 
+.logo span {
+    display: block;
+    margin-top: 5px;
+    color: #60a5fa;
+}
 
-.hero-subtitle {
-
-    margin: 0;
-
+.tagline {
     color: #dbeafe;
-
-    font-size: 16px;
+    margin-top: 12px;
 }
 
 
@@ -130,41 +47,26 @@ body {
 ======================================== */
 
 main {
-
     max-width: 1100px;
-
-    margin: 40px auto;
-
-    padding: 0 20px;
+    margin: auto;
+    padding: 30px 20px;
 }
 
 
 /* ========================================
-   GENERAL SECTIONS
+   SECTIONS
 ======================================== */
 
 section {
-
     background: white;
-
-    padding: 28px;
-
+    padding: 25px;
     margin-bottom: 25px;
-
-    border-radius: 18px;
-
-    box-shadow:
-
-        0 8px 25px
-        rgba(15,23,42,0.06);
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
 }
 
-
 section h2 {
-
     margin-top: 0;
-
-    color: #0f172a;
 }
 
 
@@ -172,95 +74,39 @@ section h2 {
    WELCOME
 ======================================== */
 
-.welcome-section {
-
-    border-left:
-        6px solid #2563eb;
-}
-
-
-.welcome-section h2 {
-
-    margin-bottom: 5px;
-}
-
-
-.welcome-section p {
-
-    margin: 0;
-
-    color: #64748b;
+.welcome h1 {
+    margin-top: 0;
 }
 
 
 /* ========================================
-   DASHBOARD STATS
+   DASHBOARD
 ======================================== */
 
-.stats-section {
-
+.dashboard {
     display: grid;
-
-    grid-template-columns:
-
-        repeat(3, 1fr);
-
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-
-    background: transparent;
-
-    box-shadow: none;
-
-    padding: 0;
 }
-
 
 .stat-card {
-
-    background: white;
-
-    padding: 25px;
-
     text-align: center;
-
-    border-radius: 18px;
-
-    box-shadow:
-
-        0 8px 25px
-        rgba(15,23,42,0.08);
-
-    transition: 0.25s;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
 }
-
-
-.stat-card:hover {
-
-    transform:
-        translateY(-5px);
-}
-
 
 .stat-icon {
-
-    font-size: 30px;
+    font-size: 32px;
 }
 
-
-.stat-card h3 {
-
-    font-size: 30px;
-
-    margin: 8px 0;
-
-    color: #2563eb;
+.stat-card h2 {
+    font-size: 32px;
+    margin: 10px 0;
 }
-
 
 .stat-card p {
-
-    margin: 0;
-
     color: #64748b;
 }
 
@@ -269,46 +115,17 @@ section h2 {
    SEARCH
 ======================================== */
 
-.search-section p {
-
-    color: #64748b;
-}
-
-
 #searchInput {
-
     width: 100%;
-
-    padding: 16px 18px;
-
-    margin-top: 10px;
-
+    padding: 15px;
     font-size: 16px;
-
-    border:
-
-        2px solid #e2e8f0;
-
-    border-radius: 12px;
-
-    outline: none;
-
-    transition: 0.2s;
-
-    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
 }
-
 
 #searchInput:focus {
-
+    outline: none;
     border-color: #2563eb;
-
-    background: white;
-
-    box-shadow:
-
-        0 0 0 4px
-        rgba(37,99,235,0.1);
 }
 
 
@@ -316,56 +133,23 @@ section h2 {
    CATEGORY BUTTONS
 ======================================== */
 
-#category-buttons {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 10px;
-}
-
-
 .category-button {
-
-    padding: 10px 18px;
-
-    border:
-
-        1px solid #dbeafe;
-
-    border-radius: 25px;
-
-    background: #f8fafc;
-
-    color: #2563eb;
-
+    padding: 10px 16px;
+    margin: 5px 5px 5px 0;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
-
+    background: #e2e8f0;
     font-size: 14px;
-
-    font-weight: bold;
-
-    transition: 0.2s;
 }
-
 
 .category-button:hover {
-
-    background: #dbeafe;
-
-    transform:
-        translateY(-2px);
+    background: #cbd5e1;
 }
 
-
 .category-button.active {
-
     background: #2563eb;
-
     color: white;
-
-    border-color: #2563eb;
 }
 
 
@@ -374,249 +158,53 @@ section h2 {
 ======================================== */
 
 .day-button {
-
     width: 100%;
-
-    display: block;
-
-    padding: 20px;
-
-    margin-bottom: 12px;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            #ffffff,
-            #f8fafc
-        );
-
-    color: #1e293b;
-
-    border:
-
-        1px solid #e2e8f0;
-
-    border-radius: 14px;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
     text-align: left;
-
+    padding: 16px;
+    margin-bottom: 10px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     cursor: pointer;
-
-    transition: 0.25s;
-
-    position: relative;
+    font-size: 16px;
 }
-
 
 .day-button:hover {
-
+    background: #eff6ff;
     border-color: #2563eb;
-
-    transform:
-
-        translateX(6px);
-
-    box-shadow:
-
-        0 8px 20px
-        rgba(37,99,235,0.12);
-}
-
-
-.day-button::after {
-
-    content: "→";
-
-    position: absolute;
-
-    right: 20px;
-
-    font-size: 22px;
-
-    color: #2563eb;
 }
 
 
 /* ========================================
-   SECTION HEADING
-======================================== */
-
-.section-heading {
-
-    margin-bottom: 20px;
-}
-
-
-.section-heading h2 {
-
-    margin-bottom: 5px;
-}
-
-
-.section-heading p {
-
-    margin: 0;
-
-    color: #64748b;
-}
-
-
-/* ========================================
-   TOPIC DETAILS
-======================================== */
-
-#topic-details {
-
-    margin-top: 20px;
-}
-
-
-#topic-details > h2 {
-
-    color: #1d4ed8;
-}
-
-
-#topic-details > p {
-
-    color: #475569;
-}
-
-
-/* ========================================
-   REVISION NOTES
+   NOTES
 ======================================== */
 
 .note {
-
+    margin-top: 18px;
+    padding: 18px;
     background: #f8fafc;
-
-    padding: 20px;
-
-    margin-top: 15px;
-
-    border-radius: 14px;
-
-    border:
-
-        1px solid #e2e8f0;
-
-    transition: 0.2s;
+    border-left: 5px solid #2563eb;
+    border-radius: 8px;
 }
-
-
-.note:hover {
-
-    border-color: #bfdbfe;
-}
-
 
 .note h3 {
-
     margin-top: 0;
+}
 
-    margin-bottom: 12px;
-
-    font-size: 18px;
-
-    color: #1e40af;
+.note p {
+    line-height: 1.7;
+    white-space: pre-line;
 }
 
 
 /* ========================================
-   ANSWER BUTTON
+   EMPTY RESULT
 ======================================== */
 
-.answer-button {
-
-    margin-top: 8px;
-
-    padding: 10px 18px;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #1d4ed8
-        );
-
-    color: white;
-
-    border: none;
-
-    border-radius: 8px;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-
-.answer-button:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-
-        0 5px 15px
-        rgba(37,99,235,0.3);
-}
-
-
-/* ========================================
-   ANSWER
-======================================== */
-
-.answer {
-
-    margin-top: 15px;
-
-    padding: 15px;
-
-    background: #ecfdf5;
-
-    border-left:
-
-        4px solid #22c55e;
-
-    border-radius: 8px;
-
-    color: #166534;
-
-    animation:
-
-        fadeIn 0.3s ease;
-}
-
-
-@keyframes fadeIn {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(-5px);
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-    }
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
 }
 
 
@@ -625,104 +213,29 @@ section h2 {
 ======================================== */
 
 footer {
-
+    background: #0f172a;
+    color: white;
     text-align: center;
-
-    padding: 30px 20px;
-
-    color: #64748b;
-}
-
-
-footer p {
-
-    margin: 5px;
-}
-
-
-.footer-small {
-
-    font-size: 13px;
+    padding: 25px;
 }
 
 
 /* ========================================
-   MOBILE DESIGN
+   MOBILE
 ======================================== */
 
 @media (max-width: 700px) {
 
-    .hero {
-
-        padding: 35px 20px;
+    .dashboard {
+        grid-template-columns: 1fr;
     }
-
-
-    .hero-content {
-
-        align-items: flex-start;
-    }
-
 
     .logo {
-
-        width: 60px;
-
-        height: 60px;
-
-        font-size: 30px;
+        font-size: 25px;
     }
-
-
-    .hero h1 {
-
-        font-size: 27px;
-    }
-
-
-    .hero-title {
-
-        font-size: 18px;
-    }
-
 
     main {
-
-        margin: 25px auto;
-
-        padding: 0 14px;
-    }
-
-
-    section {
-
-        padding: 20px;
-
-        border-radius: 15px;
-    }
-
-
-    .stats-section {
-
-        grid-template-columns:
-
-            1fr;
-    }
-
-
-    .day-button {
-
-        padding: 18px;
-
-        padding-right: 45px;
-
-        font-size: 14px;
-    }
-
-
-    .note {
-
-        padding: 16px;
+        padding: 15px;
     }
 
 }
