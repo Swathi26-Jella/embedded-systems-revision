@@ -2,41 +2,38 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Embedded Revision Hub</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
+    <title>Embedded Systems Revision Hub</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
     <!-- =========================
-         HEADER / HERO
+         HEADER
     ========================== -->
 
-    <header class="hero">
+    <header>
 
-        <div class="hero-content">
+        <div class="logo">
 
-            <div class="logo">
-                ⚡
-            </div>
+            ⚡ Embedded Systems
 
-            <div>
-                <h1>Embedded Systems</h1>
-
-                <p class="hero-title">
-                    Revision Hub
-                </p>
-
-                <p class="hero-subtitle">
-                    Learn • Revise • Practice • Master
-                </p>
-            </div>
+            <span>Revision Hub</span>
 
         </div>
+
+        <p class="tagline">
+            Learn • Revise • Practice • Master
+        </p>
 
     </header>
 
@@ -52,9 +49,9 @@
              WELCOME
         ========================== -->
 
-        <section class="welcome-section">
+        <section class="welcome">
 
-            <h2>👋 Welcome back!</h2>
+            <h1>👋 Welcome back!</h1>
 
             <p>
                 Your personal Embedded Systems learning and revision platform.
@@ -64,16 +61,16 @@
 
 
         <!-- =========================
-             DASHBOARD STATS
+             DASHBOARD
         ========================== -->
 
-        <section class="stats-section">
+        <section class="dashboard">
 
             <div class="stat-card">
 
-                <span class="stat-icon">📚</span>
+                <div class="stat-icon">📚</div>
 
-                <h3 id="topicCount">0</h3>
+                <h2 id="topicCount">0</h2>
 
                 <p>Topics</p>
 
@@ -82,9 +79,9 @@
 
             <div class="stat-card">
 
-                <span class="stat-icon">🧠</span>
+                <div class="stat-icon">🧠</div>
 
-                <h3 id="questionCount">0</h3>
+                <h2 id="questionCount">0</h2>
 
                 <p>Revision Questions</p>
 
@@ -93,9 +90,9 @@
 
             <div class="stat-card">
 
-                <span class="stat-icon">📂</span>
+                <div class="stat-icon">📂</div>
 
-                <h3 id="categoryCount">0</h3>
+                <h2 id="categoryCount">0</h2>
 
                 <p>Categories</p>
 
@@ -119,17 +116,17 @@
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Search anything... e.g. GPIO, voltage, pointer"
+                placeholder="Search Embedded Systems topics..."
             >
 
         </section>
 
 
         <!-- =========================
-             CATEGORY FILTER
+             CATEGORIES
         ========================== -->
 
-        <section class="category-section">
+        <section class="categories-section">
 
             <h2>📂 Explore Categories</h2>
 
@@ -144,48 +141,43 @@
 
         <section class="topics-section">
 
-            <div class="section-heading">
+            <h2>📚 My Learning Journey</h2>
 
-                <div>
-                    <h2>📚 My Learning Journey</h2>
+            <p>
+                Select a topic and start revising.
+            </p>
 
-                    <p>
-                        Select a topic and start revising.
-                    </p>
-                </div>
+            <div id="topics">
+
+                <p class="loading">
+                    ⏳ Loading topics...
+                </p>
 
             </div>
-
-
-            <div id="topics"></div>
 
         </section>
 
 
         <!-- =========================
-             REVISION NOTES
+             DETAILS
         ========================== -->
 
-        <section id="details-section">
+        <section
+            class="details-section"
+            id="details-section"
+        >
 
-            <div class="section-heading">
+            <h2>📖 Revision Notes</h2>
 
-                <div>
-
-                    <h2>📖 Revision Notes</h2>
-
-                    <p>
-                        Test yourself before revealing the answers.
-                    </p>
-
-                </div>
-
-            </div>
-
+            <p>
+                Learn the concept first, then revise the important points.
+            </p>
 
             <div id="topic-details">
 
-                <!-- Selected topic appears here -->
+                <p class="loading">
+                    Select a topic to start.
+                </p>
 
             </div>
 
@@ -201,25 +193,35 @@
 
     <footer>
 
-        <p>
-            ⚡ Embedded Systems Revision Hub
-        </p>
+        ⚡ Embedded Systems Revision Hub
 
-        <p class="footer-small">
-            Built for continuous learning 🚀
-        </p>
+        <br>
+
+        Built for continuous learning and revision 🚀
 
     </footer>
 
 
-    <!-- DATA FIRST -->
+    <!-- =========================
+         SUPABASE CDN
+    ========================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- =========================
+         YOUR DATA
+    ========================== -->
 
     <script src="data.js"></script>
 
 
-    <!-- WEBSITE LOGIC -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
+    <!-- =========================
+         WEBSITE SCRIPT
+    ========================== -->
+
+    <script src="script.js"></script>
+
 
 </body>
 
