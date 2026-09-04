@@ -9,7 +9,7 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f4f7fb;
+    background: #f5f7fa;
     color: #1f2937;
 }
 
@@ -18,96 +18,30 @@ body {
    HEADER
 ======================================== */
 
-header {
-    background: linear-gradient(135deg, #0f172a, #1e3a5f);
+.header {
+    height: 75px;
+    background: #172554;
     color: white;
-    text-align: center;
-    padding: 35px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 30px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.logo {
-    font-size: 32px;
-    font-weight: bold;
+.header h1 {
+    margin: 0;
+    font-size: 24px;
 }
 
-.logo span {
-    display: block;
-    margin-top: 5px;
-    color: #60a5fa;
-}
-
-.tagline {
-    color: #dbeafe;
-    margin-top: 12px;
-}
-
-
-/* ========================================
-   MAIN
-======================================== */
-
-main {
-    max-width: 1100px;
-    margin: auto;
-    padding: 30px 20px;
-}
-
-
-/* ========================================
-   SECTIONS
-======================================== */
-
-section {
-    background: white;
-    padding: 25px;
-    margin-bottom: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-}
-
-section h2 {
-    margin-top: 0;
-}
-
-
-/* ========================================
-   WELCOME
-======================================== */
-
-.welcome h1 {
-    margin-top: 0;
-}
-
-
-/* ========================================
-   DASHBOARD
-======================================== */
-
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.stat-card {
-    text-align: center;
-    padding: 25px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-}
-
-.stat-icon {
-    font-size: 32px;
-}
-
-.stat-card h2 {
-    font-size: 32px;
-    margin: 10px 0;
-}
-
-.stat-card p {
-    color: #64748b;
+.header p {
+    margin: 2px 0 0;
+    color: #bfdbfe;
 }
 
 
@@ -115,17 +49,65 @@ section h2 {
    SEARCH
 ======================================== */
 
+.search-box {
+    width: 350px;
+}
+
 #searchInput {
     width: 100%;
-    padding: 15px;
-    font-size: 16px;
-    border: 1px solid #cbd5e1;
+
+    padding: 12px 16px;
+
+    border: none;
     border-radius: 8px;
+
+    font-size: 15px;
 }
 
 #searchInput:focus {
-    outline: none;
-    border-color: #2563eb;
+    outline: 3px solid #93c5fd;
+}
+
+
+/* ========================================
+   MAIN LAYOUT
+======================================== */
+
+.layout {
+    display: flex;
+
+    max-width: 1400px;
+    margin: auto;
+
+    min-height: calc(100vh - 125px);
+}
+
+
+/* ========================================
+   LEFT SIDEBAR
+======================================== */
+
+.sidebar {
+    width: 300px;
+
+    background: white;
+
+    border-right: 1px solid #e5e7eb;
+
+    padding: 20px;
+
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.sidebar hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 15px 0;
 }
 
 
@@ -134,22 +116,32 @@ section h2 {
 ======================================== */
 
 .category-button {
-    padding: 10px 16px;
-    margin: 5px 5px 5px 0;
+    width: 100%;
+
+    text-align: left;
+
+    padding: 10px 12px;
+
+    margin-bottom: 5px;
+
     border: none;
-    border-radius: 20px;
+    border-radius: 6px;
+
+    background: transparent;
+
     cursor: pointer;
-    background: #e2e8f0;
+
     font-size: 14px;
 }
 
 .category-button:hover {
-    background: #cbd5e1;
+    background: #eff6ff;
 }
 
 .category-button.active {
-    background: #2563eb;
-    color: white;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-weight: bold;
 }
 
 
@@ -159,52 +151,139 @@ section h2 {
 
 .day-button {
     width: 100%;
+
     text-align: left;
-    padding: 16px;
-    margin-bottom: 10px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+
+    padding: 12px;
+
+    margin-bottom: 6px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #f8fafc;
+
     cursor: pointer;
-    font-size: 16px;
+
+    font-size: 14px;
+
+    color: #334155;
 }
 
 .day-button:hover {
     background: #eff6ff;
-    border-color: #2563eb;
+    color: #1d4ed8;
+}
+
+.day-button:focus {
+    outline: 2px solid #93c5fd;
 }
 
 
 /* ========================================
-   NOTES
+   RIGHT CONTENT
+======================================== */
+
+.content {
+    flex: 1;
+
+    padding: 35px 45px;
+
+    max-width: 900px;
+}
+
+.content-header {
+    margin-bottom: 30px;
+}
+
+.content-header h2 {
+    margin-top: 0;
+}
+
+.content-header p {
+    color: #64748b;
+}
+
+
+/* ========================================
+   WELCOME
+======================================== */
+
+.welcome-message {
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    text-align: center;
+}
+
+.welcome-icon {
+    font-size: 50px;
+}
+
+
+/* ========================================
+   TOPIC DETAILS
+======================================== */
+
+#topic-details > h2 {
+    font-size: 30px;
+
+    margin-top: 0;
+
+    color: #172554;
+}
+
+
+/* ========================================
+   NOTE BOX
 ======================================== */
 
 .note {
-    margin-top: 18px;
-    padding: 18px;
-    background: #f8fafc;
-    border-left: 5px solid #2563eb;
-    border-radius: 8px;
+    background: white;
+
+    margin-top: 20px;
+
+    padding: 20px 24px;
+
+    border-radius: 10px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .note h3 {
     margin-top: 0;
+
+    color: #1d4ed8;
+
+    font-size: 18px;
 }
 
 .note p {
-    line-height: 1.7;
+    line-height: 1.8;
+
     white-space: pre-line;
+
+    color: #374151;
 }
 
 
 /* ========================================
-   EMPTY RESULT
+   NO RESULTS
 ======================================== */
 
 .no-results {
-    text-align: center;
-    padding: 30px;
     color: #64748b;
+
+    text-align: center;
+
+    padding: 20px;
 }
 
 
@@ -213,10 +292,13 @@ section h2 {
 ======================================== */
 
 footer {
-    background: #0f172a;
+    background: #172554;
+
     color: white;
+
     text-align: center;
-    padding: 25px;
+
+    padding: 20px;
 }
 
 
@@ -224,18 +306,37 @@ footer {
    MOBILE
 ======================================== */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .dashboard {
-        grid-template-columns: 1fr;
-    }
+    .header {
+        height: auto;
 
-    .logo {
-        font-size: 25px;
-    }
+        flex-direction: column;
 
-    main {
+        gap: 12px;
+
         padding: 15px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+
+        max-height: 350px;
+    }
+
+    .content {
+        padding: 25px 15px;
     }
 
 }
