@@ -1,344 +1,180 @@
-/* =====================================================
-   RESET
-===================================================== */
+/* =========================================================
+   GENERAL
+========================================================= */
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-
-
-html {
-    scroll-behavior: smooth;
-}
-
 
 body {
-    margin: 0;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-    background: #f4f7fb;
-
+    background: #f5f7fb;
     color: #1f2937;
+    line-height: 1.6;
+}
 
-    line-height: 1.5;
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
 }
 
 
-
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+========================================================= */
 
-.main-header {
-
+.header {
     background:
         linear-gradient(
             135deg,
-            #0f172a,
-            #1e3a5f
+            #111827,
+            #1e3a8a
         );
 
     color: white;
-
-    padding: 28px 30px;
-
-    box-shadow:
-        0 3px 12px
-        rgba(0, 0, 0, 0.15);
+    padding: 28px 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
-
 .header-content {
-
     max-width: 1200px;
-
     margin: auto;
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 20px;
 }
 
-
-.main-header h1 {
-
-    margin: 0;
-
-    font-size: 32px;
-
-    line-height: 1.2;
+.header h1 {
+    font-size: 30px;
+    margin-bottom: 4px;
 }
 
-
-.main-header h1 span {
-
-    color: #60a5fa;
-
-    display: inline-block;
-}
-
-
-.tagline {
-
-    margin: 10px 0 0;
-
+.header p {
     color: #dbeafe;
-
     font-size: 15px;
 }
 
 
-
-/* =====================================================
+/* =========================================================
    ADD TOPIC BUTTON
-===================================================== */
+========================================================= */
 
 .add-topic-button {
+    background: white;
+    color: #1e3a8a;
 
     border: none;
+    border-radius: 10px;
 
-    background: #2563eb;
-
-    color: white;
-
-    padding: 13px 20px;
-
-    border-radius: 9px;
+    padding: 12px 18px;
 
     font-size: 15px;
-
     font-weight: bold;
-
-    cursor: pointer;
-
-    white-space: nowrap;
 
     transition: 0.2s;
 }
 
-
 .add-topic-button:hover {
-
-    background: #1d4ed8;
-
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
 
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
 
-/* =====================================================
-   MAIN
-===================================================== */
-
-main {
-
+.container {
     max-width: 1200px;
-
     margin: auto;
-
-    padding: 30px 20px;
+    padding: 30px 20px 60px;
 }
 
 
-section {
-
-    background: white;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0, 0, 0, 0.06);
-
-    margin-bottom: 22px;
-}
-
-
-
-/* =====================================================
+/* =========================================================
    WELCOME
-===================================================== */
+========================================================= */
 
-.welcome-section {
-
-    padding: 28px;
-}
-
-
-.welcome-section h2 {
-
-    margin-top: 0;
-
-    margin-bottom: 8px;
-
-    font-size: 25px;
-}
-
-
-.welcome-section p {
-
-    margin: 6px 0;
-
-    color: #475569;
-
-    font-size: 16px;
-}
-
-
-.welcome-section .welcome-small {
-
-    color: #64748b;
-
-    font-size: 14px;
-}
-
-
-
-/* =====================================================
-   STATISTICS
-===================================================== */
-
-.statistics {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 20px;
-
-    background: transparent;
-
-    box-shadow: none;
-}
-
-
-.stat-card {
-
+.welcome-card {
     background: white;
 
-    border-radius: 14px;
+    border-radius: 16px;
 
-    padding: 20px 25px;
+    padding: 30px;
 
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
+    margin-bottom: 28px;
 
     box-shadow:
-        0 4px 15px
-        rgba(0, 0, 0, 0.06);
+        0 5px 20px rgba(15, 23, 42, 0.06);
 }
 
-
-.stat-icon {
-
-    font-size: 35px;
-
-    width: 55px;
-
-    text-align: center;
+.welcome-card h2 {
+    font-size: 25px;
+    margin-bottom: 8px;
 }
 
-
-.stat-card h2 {
-
-    margin: 0;
-
-    font-size: 30px;
-
-    color: #1e3a5f;
-}
-
-
-.stat-card p {
-
-    margin: 2px 0 0;
-
+.welcome-card p {
     color: #64748b;
 }
 
+.welcome-small {
+    margin-top: 10px;
+}
 
 
-/* =====================================================
+/* =========================================================
    SEARCH
-===================================================== */
+========================================================= */
 
 .search-section {
-
-    padding: 25px;
+    margin-bottom: 35px;
 }
-
 
 .search-section h2 {
-
-    margin: 0 0 5px;
+    margin-bottom: 12px;
 }
-
-
-.search-section p {
-
-    color: #64748b;
-
-    margin: 0 0 15px;
-
-    font-size: 14px;
-}
-
 
 .search-box {
+    background: white;
+
+    border: 1px solid #dbe1ea;
+
+    border-radius: 12px;
 
     display: flex;
-
     align-items: center;
 
-    gap: 10px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 9px;
-
-    padding: 0 14px;
-
-    background: white;
-}
-
-
-.search-box:focus-within {
-
-    border-color: #2563eb;
+    padding: 0 16px;
 
     box-shadow:
-        0 0 0 3px
-        rgba(37, 99, 235, 0.1);
+        0 3px 12px rgba(0, 0, 0, 0.04);
 }
-
 
 .search-box span {
-
-    font-size: 18px;
+    font-size: 20px;
 }
 
-
-#searchInput {
-
+.search-box input {
     width: 100%;
 
     border: none;
-
     outline: none;
 
-    padding: 14px 0;
+    padding: 16px 12px;
 
     font-size: 16px;
 
@@ -346,371 +182,476 @@ section {
 }
 
 
+/* =========================================================
+   ROADMAP
+========================================================= */
 
-/* =====================================================
-   LEARNING SECTION
-===================================================== */
-
-.learning-section {
-
-    padding: 25px;
+.roadmap-section {
+    margin-top: 10px;
 }
 
-
-.section-heading h2 {
-
-    margin: 0;
-
-    font-size: 23px;
+.roadmap-heading {
+    margin-bottom: 22px;
 }
 
+.roadmap-heading h2 {
+    font-size: 27px;
+    margin-bottom: 4px;
+}
 
-.section-heading p {
-
-    margin: 5px 0 20px;
-
+.roadmap-heading p {
     color: #64748b;
+}
 
+.roadmap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+/* =========================================================
+   ROADMAP PHASE
+========================================================= */
+
+.roadmap-phase {
+    background: white;
+
+    border-radius: 14px;
+
+    border: 1px solid #e2e8f0;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.roadmap-phase-header {
+    width: 100%;
+
+    background: white;
+
+    border: none;
+
+    padding: 20px 22px;
+
+    display: flex;
+    align-items: center;
+
+    text-align: left;
+
+    gap: 15px;
+
+    transition: 0.2s;
+}
+
+.roadmap-phase-header:hover {
+    background: #f8fafc;
+}
+
+.phase-number {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    border-radius: 50%;
+
+    background: #eff6ff;
+    color: #1d4ed8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+}
+
+.phase-info {
+    flex: 1;
+}
+
+.phase-info h3 {
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.phase-info p {
+    color: #64748b;
     font-size: 14px;
 }
 
+.phase-arrow {
+    font-size: 20px;
+    transition: transform 0.2s;
+}
+
+.roadmap-phase.open .phase-arrow {
+    transform: rotate(90deg);
+}
 
 
-/* =====================================================
-   TWO COLUMN LAYOUT
-===================================================== */
+/* =========================================================
+   ROADMAP SUBTOPICS
+========================================================= */
 
-.learning-layout {
+.roadmap-topics {
+    display: none;
 
+    border-top: 1px solid #e2e8f0;
+
+    padding: 18px 22px 22px;
+}
+
+.roadmap-phase.open .roadmap-topics {
+    display: block;
+}
+
+.roadmap-topic {
+    width: 100%;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 9px;
+
+    padding: 11px 14px;
+
+    margin-bottom: 8px;
+
+    text-align: left;
+
+    color: #334155;
+
+    transition: 0.2s;
+}
+
+.roadmap-topic:last-child {
+    margin-bottom: 0;
+}
+
+.roadmap-topic:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+}
+
+
+/* =========================================================
+   LEARNING SECTION
+========================================================= */
+
+.learning-section {
+    margin-top: 20px;
+}
+
+.back-button {
+    border: none;
+
+    background: transparent;
+
+    color: #1d4ed8;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    padding: 8px 0;
+
+    margin-bottom: 15px;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+.learning-header {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid #e2e8f0;
+}
+
+.learning-header h2 {
+    font-size: 25px;
+}
+
+.breadcrumb {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+
+/* =========================================================
+   TOPIC LAYOUT
+========================================================= */
+
+.topic-layout {
     display: grid;
 
-    grid-template-columns:
-        270px 1fr;
+    grid-template-columns: 280px 1fr;
 
-    gap: 25px;
+    gap: 20px;
 
     align-items: start;
 }
 
 
+/* =========================================================
+   SUBTOPIC SIDEBAR
+========================================================= */
 
-/* =====================================================
-   CATEGORY SIDEBAR
-===================================================== */
-
-.category-sidebar {
+.subtopic-sidebar {
+    background: white;
 
     border: 1px solid #e2e8f0;
 
-    border-radius: 10px;
+    border-radius: 14px;
 
-    overflow: hidden;
+    padding: 18px;
 
-    background: #ffffff;
+    position: sticky;
+    top: 20px;
 }
 
+.subtopic-sidebar h3 {
+    margin-bottom: 15px;
+}
 
-.sidebar-title {
+.topic-button {
+    width: 100%;
 
     background: #f8fafc;
 
-    padding: 16px;
-
-    border-bottom:
-        1px solid #e2e8f0;
-}
-
-
-.sidebar-title h3 {
-
-    margin: 0;
-
-    font-size: 17px;
-}
-
-
-#categoryList {
-
-    padding: 10px;
-}
-
-
-
-/* =====================================================
-   CATEGORY BUTTON
-===================================================== */
-
-.category-button {
-
-    width: 100%;
-
-    display: block;
-
-    text-align: left;
-
-    border: none;
-
-    background: white;
-
-    color: #334155;
-
-    padding: 13px 12px;
-
-    margin-bottom: 5px;
+    border: 1px solid #e2e8f0;
 
     border-radius: 8px;
 
-    cursor: pointer;
+    padding: 11px 12px;
+
+    margin-bottom: 8px;
+
+    text-align: left;
+
+    color: #334155;
 
     font-size: 14px;
 
     transition: 0.2s;
 }
 
-
-.category-button:hover {
-
+.topic-button:hover {
     background: #eff6ff;
-
-    color: #1d4ed8;
+    border-color: #93c5fd;
 }
 
+.topic-button.active {
+    background: #dbeafe;
+    color: #1d4ed8;
 
-.category-button.active {
-
-    background: #2563eb;
-
-    color: white;
+    border-color: #60a5fa;
 
     font-weight: bold;
 }
 
 
+/* =========================================================
+   TOPIC DETAILS
+========================================================= */
 
-/* =====================================================
-   TOPIC AREA
-===================================================== */
+.topic-details {
+    background: white;
 
-.topic-area {
-
-    min-width: 0;
-}
-
-
-.topic-heading {
-
-    margin: 0 0 15px;
-
-    padding-bottom: 15px;
-
-    border-bottom:
-        1px solid #e2e8f0;
-
-    color: #1e3a5f;
-}
-
-
-
-/* =====================================================
-   TOPIC BUTTON
-===================================================== */
-
-.topic-button {
-
-    width: 100%;
-
-    display: block;
-
-    text-align: left;
+    border-radius: 14px;
 
     border: 1px solid #e2e8f0;
 
-    background: #f8fafc;
+    padding: 30px;
 
-    padding: 16px 18px;
+    min-height: 400px;
+}
 
-    margin-bottom: 10px;
+.topic-details h1 {
+    font-size: 28px;
 
-    border-radius: 9px;
+    margin-bottom: 25px;
 
-    cursor: pointer;
-
-    color: #1f2937;
-
-    font-size: 16px;
-
-    font-weight: 600;
-
-    transition: 0.2s;
+    color: #111827;
 }
 
 
-.topic-button:hover {
+/* =========================================================
+   DETAIL BOXES
+========================================================= */
 
-    background: #eff6ff;
+.detail-box {
+    margin-bottom: 22px;
 
-    border-color: #2563eb;
+    padding: 20px;
 
-    color: #1d4ed8;
-}
-
-
-
-/* =====================================================
-   TOPIC DETAILS
-===================================================== */
-
-#topicDetails {
-
-    margin-top: 25px;
-}
-
-
-.topic-title {
-
-    margin: 0 0 20px;
-
-    color: #1e3a5f;
-
-    font-size: 25px;
-
-    padding-bottom: 15px;
-
-    border-bottom:
-        2px solid #e2e8f0;
-}
-
-
-.note {
+    border-radius: 12px;
 
     background: #f8fafc;
 
-    border-left:
-        5px solid #2563eb;
-
-    border-radius: 8px;
-
-    padding: 18px;
-
-    margin-bottom: 16px;
+    border-left: 4px solid #3b82f6;
 }
 
-
-.note h3 {
-
-    margin: 0 0 8px;
-
-    color: #1e3a5f;
+.detail-box h3 {
+    margin-bottom: 9px;
 
     font-size: 17px;
 }
 
+.detail-box p {
+    color: #475569;
 
-.note p {
+    white-space: pre-wrap;
+}
 
-    margin: 0;
+.detail-box ul {
+    padding-left: 22px;
+}
 
-    white-space: pre-line;
-
-    line-height: 1.7;
-
-    color: #334155;
+.detail-box li {
+    margin-bottom: 6px;
 }
 
 
-.note pre {
+/* =========================================================
+   CODE
+========================================================= */
 
-    margin: 0;
+.code-box {
+    background: #111827;
 
-    padding: 15px;
+    color: #e5e7eb;
 
-    background: #0f172a;
+    border-radius: 10px;
 
-    color: #e2e8f0;
-
-    border-radius: 7px;
+    padding: 18px;
 
     overflow-x: auto;
 
     font-family:
-        Consolas,
         "Courier New",
         monospace;
 
     font-size: 14px;
 
-    line-height: 1.6;
+    white-space: pre-wrap;
 }
 
 
+/* =========================================================
+   EMPTY TOPIC
+========================================================= */
 
-/* =====================================================
-   EMPTY / LOADING
-===================================================== */
-
-.empty-state {
-
+.empty-topic {
     text-align: center;
 
-    padding: 70px 25px;
+    padding: 70px 20px;
 
     color: #64748b;
 }
-
 
 .empty-icon {
+    font-size: 50px;
 
-    font-size: 45px;
+    margin-bottom: 12px;
+}
 
-    margin-bottom: 15px;
+.empty-topic h3 {
+    color: #334155;
+
+    margin-bottom: 5px;
 }
 
 
-.empty-state h2 {
+/* =========================================================
+   SEARCH RESULTS
+========================================================= */
 
-    margin: 0 0 8px;
+.search-results-section {
+    background: white;
 
-    color: #1e3a5f;
+    border-radius: 14px;
 
-    font-size: 22px;
+    padding: 22px;
+
+    margin-bottom: 30px;
+
+    border: 1px solid #e2e8f0;
+}
+
+.section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.search-result-item {
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.search-result-item:hover {
+    background: #f8fafc;
+
+    border-color: #93c5fd;
+}
+
+.search-result-item h3 {
+    font-size: 17px;
+    margin-bottom: 3px;
+}
+
+.search-result-category {
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 
-.empty-state p {
+/* =========================================================
+   SMALL BUTTON
+========================================================= */
 
-    margin: 0;
+.small-button {
+    border: none;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    border-radius: 8px;
+
+    padding: 8px 12px;
 }
 
 
-.loading {
-
-    text-align: center;
-
-    color: #64748b;
-
-    padding: 20px 5px;
-
-    font-size: 14px;
-}
-
-
-.no-results {
-
-    text-align: center;
-
-    padding: 30px;
-
-    color: #64748b;
-}
-
-
-
-/* =====================================================
+/* =========================================================
    MODAL
-===================================================== */
+========================================================= */
 
 .modal {
-
     position: fixed;
 
     inset: 0;
@@ -721,363 +662,256 @@ section {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     padding: 20px;
 
     z-index: 1000;
-
-    overflow-y: auto;
 }
-
-
-.modal.hidden {
-
-    display: none;
-}
-
 
 .modal-content {
+    background: white;
 
     width: 100%;
 
     max-width: 760px;
 
-    max-height: 92vh;
+    max-height: 90vh;
 
     overflow-y: auto;
 
-    background: white;
+    border-radius: 16px;
 
-    border-radius: 14px;
+    padding: 28px;
 
     box-shadow:
-        0 20px 50px
-        rgba(0, 0, 0, 0.25);
+        0 25px 60px rgba(0, 0, 0, 0.25);
 }
 
-
 .modal-header {
-
     display: flex;
 
     justify-content: space-between;
 
-    align-items: flex-start;
-
     gap: 20px;
 
-    padding: 22px 25px;
-
-    border-bottom:
-        1px solid #e2e8f0;
+    margin-bottom: 25px;
 }
-
 
 .modal-header h2 {
-
-    margin: 0;
-
-    color: #1e3a5f;
+    margin-bottom: 4px;
 }
-
 
 .modal-header p {
-
-    margin: 4px 0 0;
-
     color: #64748b;
-
-    font-size: 14px;
 }
 
-
-.close-button {
+.close-modal {
+    width: 38px;
+    height: 38px;
 
     border: none;
 
     background: #f1f5f9;
 
-    color: #475569;
-
-    width: 35px;
-
-    height: 35px;
-
     border-radius: 50%;
 
-    cursor: pointer;
-
-    font-size: 16px;
+    font-size: 18px;
 }
 
 
-.close-button:hover {
-
-    background: #e2e8f0;
-}
-
-
-
-/* =====================================================
+/* =========================================================
    FORM
-===================================================== */
+========================================================= */
 
-#addTopicForm {
-
-    padding: 25px;
-}
-
-
-.form-row {
-
+.form-grid {
     display: grid;
 
-    grid-template-columns:
-        1fr 150px;
+    grid-template-columns: 1fr 180px;
 
-    gap: 15px;
+    gap: 16px;
 }
 
-
 .form-group {
-
     margin-bottom: 17px;
 }
 
-
 .form-group label {
-
     display: block;
-
-    margin-bottom: 7px;
 
     font-weight: bold;
 
-    color: #334155;
-
-    font-size: 14px;
+    margin-bottom: 7px;
 }
 
+.form-group label span {
+    font-weight: normal;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+}
 
 .form-group input,
 .form-group textarea {
-
     width: 100%;
 
     border: 1px solid #cbd5e1;
 
-    border-radius: 8px;
+    border-radius: 9px;
 
     padding: 12px;
 
-    font-family: inherit;
+    outline: none;
 
     font-size: 15px;
-
-    outline: none;
 }
-
 
 .form-group input:focus,
 .form-group textarea:focus {
-
-    border-color: #2563eb;
+    border-color: #3b82f6;
 
     box-shadow:
-        0 0 0 3px
-        rgba(37, 99, 235, 0.1);
+        0 0 0 3px rgba(59, 130, 246, 0.1);
 }
-
 
 .form-group textarea {
-
-    min-height: 95px;
+    min-height: 100px;
 
     resize: vertical;
-
-    line-height: 1.5;
 }
 
-
 .form-group textarea.code-input {
-
-    min-height: 140px;
+    min-height: 160px;
 
     font-family:
-        Consolas,
         "Courier New",
         monospace;
 }
 
+.form-group small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
 
 
-/* =====================================================
-   FORM BUTTONS
-===================================================== */
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
 
-.form-buttons {
-
+.form-actions {
     display: flex;
 
     justify-content: flex-end;
 
     gap: 10px;
 
-    padding-top: 10px;
+    margin-top: 22px;
 }
-
 
 .cancel-button,
 .save-button {
-
     border: none;
 
-    padding: 12px 20px;
+    border-radius: 9px;
 
-    border-radius: 8px;
-
-    font-size: 14px;
+    padding: 12px 18px;
 
     font-weight: bold;
-
-    cursor: pointer;
 }
 
-
 .cancel-button {
-
     background: #e2e8f0;
 
     color: #334155;
 }
 
-
-.cancel-button:hover {
-
-    background: #cbd5e1;
-}
-
-
 .save-button {
-
     background: #2563eb;
 
     color: white;
 }
 
-
 .save-button:hover {
-
     background: #1d4ed8;
 }
 
 
-.save-button:disabled {
-
-    opacity: 0.6;
-
-    cursor: not-allowed;
-}
-
-
-
-/* =====================================================
+/* =========================================================
    FORM MESSAGE
-===================================================== */
+========================================================= */
 
 .form-message {
+    padding: 10px;
 
-    margin-bottom: 10px;
+    border-radius: 8px;
 
     font-size: 14px;
 
-    font-weight: bold;
+    display: none;
 }
-
 
 .form-message.success {
+    display: block;
 
-    color: #15803d;
+    background: #dcfce7;
+
+    color: #166534;
 }
-
 
 .form-message.error {
+    display: block;
 
-    color: #dc2626;
+    background: #fee2e2;
+
+    color: #991b1b;
 }
 
 
+/* =========================================================
+   UTILITY
+========================================================= */
 
-/* =====================================================
-   FOOTER
-===================================================== */
-
-footer {
-
-    background: #0f172a;
-
-    color: #cbd5e1;
-
-    text-align: center;
-
-    padding: 25px;
-
-    margin-top: 20px;
-
-    font-size: 14px;
+.hidden {
+    display: none !important;
 }
 
 
-footer strong {
-
-    color: white;
-}
-
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 800px) {
 
     .header-content {
-
         flex-direction: column;
 
         align-items: flex-start;
     }
 
-
-    .main-header h1 {
-
-        font-size: 26px;
+    .header h1 {
+        font-size: 24px;
     }
 
-
-    .statistics {
-
+    .topic-layout {
         grid-template-columns: 1fr;
     }
 
+    .subtopic-sidebar {
+        position: static;
+    }
 
-    .learning-layout {
-
+    .form-grid {
         grid-template-columns: 1fr;
     }
 
-
-    .category-sidebar {
-
-        width: 100%;
-    }
-
-
-    .form-row {
-
-        grid-template-columns: 1fr;
+    .topic-details {
+        padding: 20px;
     }
 
 }
@@ -1085,30 +919,28 @@ footer strong {
 
 @media (max-width: 500px) {
 
-    main {
-
-        padding: 15px;
+    .container {
+        padding: 20px 12px 40px;
     }
 
-
-    .learning-section,
-    .welcome-section,
-    .search-section {
-
-        padding: 18px;
+    .welcome-card {
+        padding: 22px;
     }
 
-
-    .form-buttons {
-
-        flex-direction: column;
+    .roadmap-phase-header {
+        padding: 16px;
     }
 
+    .roadmap-topics {
+        padding: 14px;
+    }
 
-    .cancel-button,
-    .save-button {
+    .modal {
+        padding: 10px;
+    }
 
-        width: 100%;
+    .modal-content {
+        padding: 20px;
     }
 
 }
