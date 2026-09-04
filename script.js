@@ -707,7 +707,6 @@ function openRoadmapTopic(phase, topicName) {
   $("selectedMainTopic").textContent = phase.title;
   $("breadcrumb").textContent = "Roadmap → " + phase.title;
   displayPhaseTopics(phase, topicName);
-  window.scrollTo({top:0, behavior:"smooth"});
 }
 
 function displayPhaseTopics(phase, selectedName) {
