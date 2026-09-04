@@ -10,40 +10,28 @@ const SUPABASE_KEY =
 
 
 // ========================================
-// SUPABASE CLIENT
+// GLOBAL DATA
 // ========================================
 
-let supabaseClient = null;
+let topics =
+    typeof backupTopics !== "undefined"
+        ? [...backupTopics]
+        : [];
 
-if (window.supabase) {
-
-    supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-} else {
-
-    console.error("Supabase library was not loaded.");
-
-}
-
-
-// ========================================
-// WEBSITE DATA
-// ========================================
-
-let topics = [];
+let selectedCategory = null;
 
 
 // ========================================
 // HTML ELEMENTS
 // ========================================
 
-const topicContainer =
-    document.getElementById("topics");
+const categoryList =
+    document.getElementById("category-list");
 
-const detailsContainer =
+const topicList =
+    document.getElementById("topic-list");
+
+const topicDetails =
     document.getElementById("topic-details");
 
 const searchInput =
@@ -51,161 +39,176 @@ const searchInput =
 
 
 // ========================================
-// LOAD TOPICS FROM SUPABASE
+// LOAD SUPABASE DATA
 // ========================================
 
-async function loadTopics() {
-
-    topicContainer.innerHTML = `
-        <div class="status">
-            ⏳ Loading topics...
-        </div>
-    `;
-
-
-    if (!supabaseClient) {
-
-        topicContainer.innerHTML = `
-            <div class="status">
-                ❌ Supabase library could not be loaded.
-            </div>
-        `;
-
-        return;
-
-    }
-
+async function loadFromSupabase() {
 
     try {
 
-        const { data, error } = await supabaseClient
-            .from("topics")
-            .select("*")
-            .order("day", { ascending: true });
+        if (!window.supabase) {
+
+            categoryList.innerHTML = `
+                <p class="no-results">
+                    ❌ Supabase library could not be loaded.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        const { data, error } =
+            await supabaseClient
+                .from("topics")
+                .select("*")
+                .order("day", {
+                    ascending: true
+                });
 
 
         if (error) {
 
-            console.error("Supabase error:", error);
+            console.error(
+                "Supabase error:",
+                error
+            );
 
-            topicContainer.innerHTML = `
-                <div class="status">
-                    ❌ Could not load topics from Supabase.
-                    <br><br>
-                    ${error.message}
-                </div>
+            categoryList.innerHTML = `
+                <p class="no-results">
+                    ❌ Could not load topics.
+                </p>
             `;
 
             return;
+        }
+
+
+        if (data && data.length > 0) {
+
+            topics = data;
+
+            console.log(
+                "Topics loaded:",
+                topics.length
+            );
 
         }
 
 
-        if (!data || data.length === 0) {
-
-            topicContainer.innerHTML = `
-                <div class="status">
-                    📭 No topics found in Supabase.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        // Store Supabase topics
-
-        topics = data;
-
-
-        console.log(
-            "Successfully loaded:",
-            topics.length,
-            "topics"
-        );
-
-
-        displayTopics(topics);
-
-
-        // Show first topic automatically
-
-        showTopic(topics[0]);
+        refreshWebsite();
 
     }
-
 
     catch (error) {
 
         console.error(
-            "Unexpected Supabase error:",
+            "Connection error:",
             error
         );
 
-
-        topicContainer.innerHTML = `
-            <div class="status">
-                ❌ Connection problem.
-                <br><br>
-                ${error.message}
-            </div>
+        categoryList.innerHTML = `
+            <p class="no-results">
+                ❌ Connection error.
+            </p>
         `;
-
     }
-
 }
 
 
 // ========================================
-// DISPLAY TOPICS
+// GET UNIQUE CATEGORIES
 // ========================================
 
-function displayTopics(topicList) {
+function getCategories() {
 
-    topicContainer.innerHTML = "";
+    const categories = [];
+
+    topics.forEach(function (topic) {
+
+        if (
+            topic.category &&
+            !categories.includes(topic.category)
+        ) {
+
+            categories.push(topic.category);
+
+        }
+
+    });
 
 
-    if (!topicList || topicList.length === 0) {
+    return categories;
+}
 
-        topicContainer.innerHTML = `
-            <div class="status">
-                📭 No matching topics found.
-            </div>
+
+// ========================================
+// DISPLAY CATEGORIES
+// ========================================
+
+function displayCategories() {
+
+    categoryList.innerHTML = "";
+
+    const categories = getCategories();
+
+
+    if (categories.length === 0) {
+
+        categoryList.innerHTML = `
+            <p class="no-results">
+                📭 No categories found.
+            </p>
         `;
 
         return;
-
     }
 
 
-    topicList.forEach(function(topic) {
+    categories.forEach(function (category) {
 
         const button =
             document.createElement("button");
 
-
-        button.className = "topic-button";
-
+        button.className =
+            "category-button";
 
         button.textContent =
-            "Day " +
-            topic.day +
-            " — " +
-            topic.title;
+            "📂 " + category;
+
+
+        if (category === selectedCategory) {
+
+            button.classList.add("active");
+
+        }
 
 
         button.addEventListener(
             "click",
-            function() {
+            function () {
 
-                showTopic(topic);
+                selectedCategory =
+                    category;
+
+                displayCategories();
+
+                displayTopicsForCategory(
+                    category
+                );
 
             }
         );
 
 
-        topicContainer.appendChild(button);
+        categoryList.appendChild(button);
 
     });
 
@@ -213,55 +216,101 @@ function displayTopics(topicList) {
 
 
 // ========================================
-// SHOW TOPIC
+// DISPLAY TOPICS INSIDE CATEGORY
+// ========================================
+
+function displayTopicsForCategory(category) {
+
+    topicDetails.innerHTML = "";
+
+
+    const categoryTopics =
+        topics.filter(function (topic) {
+
+            return topic.category === category;
+
+        });
+
+
+    topicList.innerHTML = `
+
+        <h2 class="topic-heading">
+            📂 ${category}
+        </h2>
+
+    `;
+
+
+    if (categoryTopics.length === 0) {
+
+        topicList.innerHTML += `
+            <p class="no-results">
+                📭 No topics found.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    categoryTopics.forEach(function (topic) {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "topic-button";
+
+
+        button.textContent =
+            topic.title;
+
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                showTopic(topic);
+
+            }
+        );
+
+
+        topicList.appendChild(button);
+
+    });
+
+}
+
+
+// ========================================
+// SHOW SELECTED TOPIC
 // ========================================
 
 function showTopic(topic) {
 
-    detailsContainer.innerHTML = "";
+    topicDetails.innerHTML = "";
 
-
-    // TITLE
 
     const title =
-        document.createElement("h1");
+        document.createElement("h2");
+
+    title.className =
+        "topic-title";
+
 
     title.textContent =
-        "Day " +
-        topic.day +
-        " — " +
-        topic.title;
-
-    detailsContainer.appendChild(title);
+        "⚡ " + topic.title;
 
 
-    // CATEGORY
+    topicDetails.appendChild(title);
 
-    if (topic.category) {
-
-        const category =
-            document.createElement("div");
-
-        category.className =
-            "topic-category";
-
-        category.textContent =
-            "📂 " + topic.category;
-
-        detailsContainer.appendChild(category);
-
-    }
-
-
-    // SIMPLE EXPLANATION
 
     addContent(
-        "🧒 What does it mean?",
+        "🧒 Meaning / Simple Explanation",
         topic.simple_explanation
     );
 
-
-    // REAL LIFE
 
     addContent(
         "🏠 Real-Life Example",
@@ -269,15 +318,11 @@ function showTopic(topic) {
     );
 
 
-    // SYMBOL / UNIT
-
     addContent(
         "🔣 Symbol / Unit",
         topic.symbol_unit
     );
 
-
-    // IMPORTANT POINTS
 
     addContent(
         "⭐ Important Points",
@@ -285,15 +330,12 @@ function showTopic(topic) {
     );
 
 
-    // EMBEDDED CONNECTION
-
     addContent(
-        "🔧 Where is it used in Embedded Systems?",
+        "⚡ Embedded Systems Connection",
+        topic.embedded_connection ||
         topic.embedded_connections
     );
 
-
-    // FORMULA
 
     addContent(
         "🧮 Formula",
@@ -301,9 +343,7 @@ function showTopic(topic) {
     );
 
 
-    // CODE
-
-    addCode(
+    addContent(
         "💻 Code Example",
         topic.code_example
     );
@@ -312,10 +352,13 @@ function showTopic(topic) {
 
 
 // ========================================
-// ADD NORMAL CONTENT
+// ADD CONTENT BOX
 // ========================================
 
-function addContent(heading, content) {
+function addContent(
+    heading,
+    content
+) {
 
     if (
         content === null ||
@@ -324,7 +367,6 @@ function addContent(heading, content) {
     ) {
 
         return;
-
     }
 
 
@@ -358,64 +400,7 @@ function addContent(heading, content) {
     );
 
 
-    detailsContainer.appendChild(
-        box
-    );
-
-}
-
-
-// ========================================
-// ADD CODE CONTENT
-// ========================================
-
-function addCode(heading, content) {
-
-    if (
-        content === null ||
-        content === undefined ||
-        String(content).trim() === ""
-    ) {
-
-        return;
-
-    }
-
-
-    const box =
-        document.createElement("div");
-
-    box.className =
-        "note";
-
-
-    const headingElement =
-        document.createElement("h3");
-
-    headingElement.textContent =
-        heading;
-
-
-    const code =
-        document.createElement("div");
-
-    code.className =
-        "code-box";
-
-    code.textContent =
-        content;
-
-
-    box.appendChild(
-        headingElement
-    );
-
-    box.appendChild(
-        code
-    );
-
-
-    detailsContainer.appendChild(
+    topicDetails.appendChild(
         box
     );
 
@@ -426,65 +411,168 @@ function addCode(heading, content) {
 // SEARCH
 // ========================================
 
-searchInput.addEventListener(
-    "input",
-    function() {
+function searchTopics() {
 
-        const searchText =
-            searchInput.value
-                .toLowerCase()
-                .trim();
+    const searchText =
+        searchInput.value
+            .toLowerCase()
+            .trim();
 
 
-        if (searchText === "") {
+    if (searchText === "") {
 
-            displayTopics(topics);
+        if (selectedCategory) {
 
-            return;
+            displayTopicsForCategory(
+                selectedCategory
+            );
 
         }
 
-
-        const filteredTopics =
-            topics.filter(function(topic) {
-
-                const searchableText = `
-
-                    ${topic.day || ""}
-
-                    ${topic.category || ""}
-
-                    ${topic.title || ""}
-
-                    ${topic.simple_explanation || ""}
-
-                    ${topic.real_life_example || ""}
-
-                    ${topic.symbol_unit || ""}
-
-                    ${topic.important_points || ""}
-
-                    ${topic.embedded_connections || ""}
-
-                    ${topic.formula || ""}
-
-                    ${topic.code_example || ""}
-
-                `.toLowerCase();
+        return;
+    }
 
 
-                return searchableText.includes(
-                    searchText
-                );
+    const results =
+        topics.filter(function (topic) {
 
-            });
+            const searchableText = `
+
+                ${topic.category || ""}
+
+                ${topic.title || ""}
+
+                ${topic.simple_explanation || ""}
+
+                ${topic.real_life_example || ""}
+
+                ${topic.symbol_unit || ""}
+
+                ${topic.important_points || ""}
+
+                ${topic.embedded_connection || ""}
+
+                ${topic.embedded_connections || ""}
+
+                ${topic.formula || ""}
+
+                ${topic.code_example || ""}
+
+            `.toLowerCase();
 
 
-        displayTopics(
-            filteredTopics
+            return searchableText.includes(
+                searchText
+            );
+
+        });
+
+
+    displaySearchResults(results);
+
+}
+
+
+// ========================================
+// DISPLAY SEARCH RESULTS
+// ========================================
+
+function displaySearchResults(results) {
+
+    topicDetails.innerHTML = "";
+
+    topicList.innerHTML = `
+        <h2 class="topic-heading">
+            🔍 Search Results
+        </h2>
+    `;
+
+
+    if (results.length === 0) {
+
+        topicList.innerHTML += `
+            <p class="no-results">
+                📭 No matching topics found.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    results.forEach(function (topic) {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "topic-button";
+
+
+        button.textContent =
+            "📂 " +
+            topic.category +
+            " → " +
+            topic.title;
+
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                showTopic(topic);
+
+            }
         );
 
-    }
+
+        topicList.appendChild(button);
+
+    });
+
+}
+
+
+// ========================================
+// STATISTICS
+// ========================================
+
+function updateStatistics() {
+
+    document
+        .getElementById("topicCount")
+        .textContent =
+        topics.length;
+
+
+    document
+        .getElementById("categoryCount")
+        .textContent =
+        getCategories().length;
+
+}
+
+
+// ========================================
+// REFRESH WEBSITE
+// ========================================
+
+function refreshWebsite() {
+
+    updateStatistics();
+
+    displayCategories();
+
+}
+
+
+// ========================================
+// SEARCH EVENT
+// ========================================
+
+searchInput.addEventListener(
+    "input",
+    searchTopics
 );
 
 
@@ -492,4 +580,6 @@ searchInput.addEventListener(
 // START WEBSITE
 // ========================================
 
-loadTopics();
+refreshWebsite();
+
+loadFromSupabase();
