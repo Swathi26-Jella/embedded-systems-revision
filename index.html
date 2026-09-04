@@ -2,110 +2,265 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Embedded Systems Revision Hub</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<header>
 
-    <div class="logo">
-        ⚡ Embedded Systems
-        <span>Revision Hub</span>
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="main-header">
+
+    <div class="header-content">
+
+        <div>
+
+            <h1>
+                ⚡ Embedded Systems
+                <span>Revision Hub</span>
+            </h1>
+
+            <p class="tagline">
+                Learn • Revise • Practice • Master
+            </p>
+
+        </div>
+
+
+        <button
+            id="addTopicButton"
+            class="add-topic-button"
+        >
+            ➕ Add Topic
+        </button>
+
     </div>
-
-    <p class="tagline">
-        Learn • Revise • Practice • Master
-    </p>
 
 </header>
 
 
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <main>
 
-    <!-- WELCOME -->
-    <section class="welcome">
 
-        <h1>👋 Welcome to your Revision Hub</h1>
+    <!-- WELCOME -->
+
+    <section class="welcome-section">
+
+        <h2>
+            👋 Welcome back!
+        </h2>
 
         <p>
-            Select a category to explore your Embedded Systems topics.
+            Your personal Embedded Systems learning
+            and revision platform.
+        </p>
+
+        <p class="welcome-small">
+            Learn the concept, understand it with
+            real-life examples and connect it to
+            Embedded Systems.
         </p>
 
     </section>
 
 
-    <!-- STATISTICS -->
-    <section class="dashboard">
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section class="statistics">
 
         <div class="stat-card">
-            <div class="stat-icon">📚</div>
-            <h2 id="topicCount">0</h2>
-            <p>Topics</p>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-icon">📂</div>
-            <h2 id="categoryCount">0</h2>
-            <p>Categories</p>
-        </div>
-
-    </section>
-
-
-    <!-- SEARCH -->
-    <section class="search-section">
-
-        <h2>🔍 Search</h2>
-
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search topics, categories or concepts..."
-        >
-
-    </section>
-
-
-    <!-- MAIN LEARNING AREA -->
-    <section class="learning-area">
-
-        <!-- LEFT SIDE -->
-        <aside class="sidebar">
-
-            <h2>📂 Categories</h2>
-
-            <div id="category-list">
-                ⏳ Loading categories...
+            <div class="stat-icon">
+                📚
             </div>
 
-        </aside>
+            <div>
+
+                <h2 id="topicCount">
+                    0
+                </h2>
+
+                <p>
+                    Topics
+                </p>
+
+            </div>
+
+        </div>
 
 
-        <!-- RIGHT SIDE -->
-        <div class="content-area">
+        <div class="stat-card">
 
-            <div id="topic-list">
+            <div class="stat-icon">
+                📂
+            </div>
 
-                <div class="welcome-message">
+            <div>
 
-                    <h2>⚡ Embedded Systems Revision Hub</h2>
+                <h2 id="categoryCount">
+                    0
+                </h2>
 
-                    <p>
-                        Select a category from the left to see its topics.
-                    </p>
+                <p>
+                    Categories
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="search-section">
+
+        <h2>
+            🔍 Search Your Knowledge
+        </h2>
+
+        <p>
+            Search topics, categories, keywords or explanations.
+        </p>
+
+        <div class="search-box">
+
+            <span>
+                🔍
+            </span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search Embedded Systems topics..."
+                autocomplete="off"
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LEARNING AREA
+    ================================================== -->
+
+    <section class="learning-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    📚 My Learning Journey
+                </h2>
+
+                <p>
+                    Choose a category and start revising.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="learning-layout">
+
+
+            <!-- =========================================
+                 LEFT: CATEGORIES
+            ========================================== -->
+
+            <aside class="category-sidebar">
+
+                <div class="sidebar-title">
+
+                    <h3>
+                        📂 Categories
+                    </h3>
 
                 </div>
 
-            </div>
+
+                <div id="categoryList">
+
+                    <div class="loading">
+                        ⏳ Loading categories...
+                    </div>
+
+                </div>
+
+            </aside>
 
 
-            <div id="topic-details">
+
+            <!-- =========================================
+                 RIGHT: TOPICS + DETAILS
+            ========================================== -->
+
+            <div class="topic-area">
+
+
+                <!-- TOPIC LIST -->
+
+                <div id="topicList">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ⚡
+                        </div>
+
+                        <h2>
+                            Welcome to Embedded Systems Revision Hub
+                        </h2>
+
+                        <p>
+                            Select a category from the left
+                            to see your topics.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOPIC DETAILS -->
+
+                <div id="topicDetails">
+
+                </div>
+
 
             </div>
 
@@ -116,23 +271,278 @@
 </main>
 
 
+
+<!-- =====================================================
+     ADD TOPIC MODAL
+===================================================== -->
+
+<div
+    id="addTopicModal"
+    class="modal hidden"
+>
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    ➕ Add New Topic
+                </h2>
+
+                <p>
+                    Add your daily revised topic.
+                </p>
+
+            </div>
+
+            <button
+                id="closeModalButton"
+                class="close-button"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form id="addTopicForm">
+
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="topicCategory">
+                        📂 Category *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="topicCategory"
+                        placeholder="Example: GPIO"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="topicDay">
+                        📅 Day
+                    </label>
+
+                    <input
+                        type="number"
+                        id="topicDay"
+                        placeholder="Example: 28"
+                        min="1"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="topicTitle">
+                    📖 Topic Title *
+                </label>
+
+                <input
+                    type="text"
+                    id="topicTitle"
+                    placeholder="Example: PWM"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="simpleExplanation">
+                    🧒 Meaning / Simple Explanation
+                </label>
+
+                <textarea
+                    id="simpleExplanation"
+                    placeholder="Explain the concept simply..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="realLifeExample">
+                    🏠 Real-Life Example
+                </label>
+
+                <textarea
+                    id="realLifeExample"
+                    placeholder="Give an easy real-life example..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="symbolUnit">
+                    🔣 Symbol / Unit
+                </label>
+
+                <textarea
+                    id="symbolUnit"
+                    placeholder="Example: Voltage = V"
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="importantPoints">
+                    ⭐ Important Points
+                </label>
+
+                <textarea
+                    id="importantPoints"
+                    placeholder="Write the important points..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="embeddedConnection">
+                    ⚡ Embedded Systems Connection
+                </label>
+
+                <textarea
+                    id="embeddedConnection"
+                    placeholder="How is this used in Embedded Systems?"
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="formula">
+                    🧮 Formula
+                </label>
+
+                <textarea
+                    id="formula"
+                    placeholder="Write formula if applicable..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="codeExample">
+                    💻 Code Example
+                </label>
+
+                <textarea
+                    id="codeExample"
+                    class="code-input"
+                    placeholder="Paste your C/C++ code here..."
+                ></textarea>
+
+            </div>
+
+
+
+            <div
+                id="formMessage"
+                class="form-message"
+            ></div>
+
+
+
+            <div class="form-buttons">
+
+                <button
+                    type="button"
+                    id="cancelButton"
+                    class="cancel-button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    id="saveTopicButton"
+                    class="save-button"
+                >
+                    💾 Save Topic
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
-    ⚡ Embedded Systems Revision Hub
+    <strong>
+        ⚡ Embedded Systems Revision Hub
+    </strong>
+
     <br>
+
     Built for continuous learning and revision 🚀
 
 </footer>
 
 
-<!-- SUPABASE -->
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- BACKUP DATA -->
-<script src="data.js"></script>
 
-<!-- MAIN SCRIPT -->
+<!-- =====================================================
+     MAIN JAVASCRIPT
+===================================================== -->
+
 <script src="script.js"></script>
+
 
 </body>
 
