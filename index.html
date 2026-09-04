@@ -12,102 +12,77 @@
 
 <body>
 
-    <!-- HEADER -->
-    <header class="header">
+<header class="header">
 
-        <div>
-            <h1>⚡ Embedded Systems</h1>
-            <p>Revision Hub</p>
-        </div>
+    <div class="logo">
+        ⚡ Embedded Systems
+        <span>Revision Hub</span>
+    </div>
 
-        <div class="search-box">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="🔍 Search topics..."
-            >
-        </div>
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Search topics..."
+    >
 
-    </header>
+</header>
 
 
-    <!-- MAIN CONTENT -->
-    <main class="layout">
+<main class="layout">
+
+    <!-- LEFT SIDE -->
+    <aside class="sidebar">
+
+        <h2>📚 Topics</h2>
+
+        <div id="topics"></div>
+
+    </aside>
 
 
-        <!-- LEFT SIDEBAR -->
-        <aside class="sidebar">
+    <!-- RIGHT SIDE -->
+    <section class="content">
 
-            <h2>📚 Topics</h2>
+        <div id="topic-details">
 
-            <div id="category-buttons"></div>
+            <div class="welcome-message">
 
-            <hr>
+                <div class="welcome-icon">⚡</div>
 
-            <div id="topics"></div>
-
-        </aside>
-
-
-        <!-- RIGHT CONTENT -->
-        <section class="content">
-
-            <div class="content-header">
-
-                <h2>📖 Learn Embedded Systems</h2>
+                <h2>Welcome to Embedded Systems Revision Hub</h2>
 
                 <p>
                     Select a topic from the left to start learning.
                 </p>
 
-            </div>
-
-
-            <!-- SELECTED TOPIC -->
-            <div id="topic-details">
-
-                <div class="welcome-message">
-
-                    <div class="welcome-icon">⚡</div>
-
-                    <h2>Welcome to Embedded Systems Revision Hub</h2>
-
-                    <p>
-                        Choose a topic from the left.
-                    </p>
-
-                    <p>
-                        Learn what it means, understand it with
-                        real-life examples, and see how it is used
-                        in Embedded Systems.
-                    </p>
-
-                </div>
+                <p>
+                    Learn the concept, understand it with
+                    real-life examples and see how it is used
+                    in Embedded Systems.
+                </p>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
 
-
-    <!-- FOOTER -->
-    <footer>
-
-        ⚡ Embedded Systems Revision Hub
-
-    </footer>
+</main>
 
 
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<footer>
+    ⚡ Embedded Systems Revision Hub
+</footer>
 
-    <!-- BACKUP DATA -->
-    <script src="data.js"></script>
 
-    <!-- MAIN SCRIPT -->
-    <script src="script.js"></script>
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- BACKUP DATA -->
+<script src="data.js"></script>
+
+<!-- MAIN SCRIPT -->
+<script src="script.js"></script>
 
 </body>
-
 </html>
