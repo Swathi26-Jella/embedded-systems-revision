@@ -1,360 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Embedded Systems Revision Hub</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embedded Systems Revision Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
-
-    <!-- HEADER -->
-    <header class="header">
-        <div class="header-content">
-
-            <div>
-                <h1>⚡ Embedded Systems Revision Hub</h1>
-                <p>Learn • Revise • Practice • Master</p>
-            </div>
-
-            <button id="addTopicButton" class="add-topic-button">
-                ➕ Add Topic
-            </button>
-
-        </div>
-    </header>
-
-
-    <main class="container">
-
-        <!-- WELCOME -->
-        <section class="welcome-card">
-
-            <h2>👋 Welcome back!</h2>
-
-            <p>
-                Your personal Embedded Systems learning and revision platform.
-            </p>
-
-            <p class="welcome-small">
-                Learn Embedded Systems step-by-step from
-                <strong>Zero → Advanced</strong>.
-            </p>
-
-        </section>
-
-
-        <!-- SEARCH -->
-        <section class="search-section">
-
-            <h2>🔍 Search Your Knowledge</h2>
-
-            <div class="search-box">
-                <span>🔎</span>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search topics, categories, keywords..."
-                    autocomplete="off"
-                >
-            </div>
-
-        </section>
-
-
-        <!-- SEARCH RESULTS -->
-        <section id="searchResultsSection" class="search-results-section hidden">
-
-            <div class="section-title-row">
-
-                <h2>🔎 Search Results</h2>
-
-                <button id="closeSearchButton" class="small-button">
-                    ✕ Close
-                </button>
-
-            </div>
-
-            <div id="searchResults"></div>
-
-        </section>
-
-
-        <!-- ROADMAP -->
-        <section id="roadmapSection" class="roadmap-section">
-
-            <div class="roadmap-heading">
-
-                <h2>🚀 Complete Embedded Systems Roadmap</h2>
-
-                <p>
-                    Your complete learning journey from
-                    <strong>Zero → Advanced</strong>.
-                </p>
-
-            </div>
-
-            <div id="roadmapContainer" class="roadmap-container"></div>
-
-        </section>
-
-
-        <!-- LEARNING SECTION -->
-        <section id="learningSection" class="learning-section hidden">
-
-            <button id="backToRoadmapButton" class="back-button">
-                ← Back to Roadmap
-            </button>
-
-
-            <div class="learning-header">
-
-                <p id="breadcrumb" class="breadcrumb">
-                    Roadmap
-                </p>
-
-                <h2 id="selectedMainTopic">
-                    Topic
-                </h2>
-
-            </div>
-
-
-            <div class="topic-layout">
-
-                <!-- LEFT -->
-                <aside class="subtopic-sidebar">
-
-                    <h3>📚 Topics</h3>
-
-                    <div id="topicList"></div>
-
-                </aside>
-
-
-                <!-- RIGHT -->
-                <article id="topicDetails" class="topic-details"></article>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ADD TOPIC MODAL -->
-    <div id="addTopicModal" class="modal hidden">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <div>
-                    <h2>➕ Add Revision Notes</h2>
-
-                    <p>
-                        Add your Embedded Systems revision notes.
-                    </p>
-                </div>
-
-                <button id="closeModalButton" class="close-modal">
-                    ✕
-                </button>
-
-            </div>
-
-
-            <form id="addTopicForm">
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="topicCategory">
-                            Main Topic / Category *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="topicCategory"
-                            placeholder="Example: GPIO"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="topicDay">
-                            Day <span>(optional)</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="topicDay"
-                            min="1"
-                            placeholder="Example: 28"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="topicTitle">
-                        Topic Title *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="topicTitle"
-                        placeholder="Example: PWM Duty Cycle"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="simpleExplanation">
-                        🧒 Meaning / Simple Explanation
-                    </label>
-
-                    <textarea
-                        id="simpleExplanation"
-                        placeholder="Explain the topic simply..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="realLifeExample">
-                        🏠 Real-Life Example
-                    </label>
-
-                    <textarea
-                        id="realLifeExample"
-                        placeholder="Give a real-life example..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="symbolUnit">
-                        🔣 Symbol / Unit
-                    </label>
-
-                    <textarea
-                        id="symbolUnit"
-                        placeholder="Example: Voltage = V"
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="importantPoints">
-                        ⭐ Important Points
-                    </label>
-
-                    <textarea
-                        id="importantPoints"
-                        placeholder="Write important revision points..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="embeddedConnection">
-                        ⚡ Embedded Systems Connection
-                    </label>
-
-                    <textarea
-                        id="embeddedConnection"
-                        placeholder="How is this used in embedded systems?"
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="formula">
-                        🧮 Formula
-                    </label>
-
-                    <textarea
-                        id="formula"
-                        placeholder="Example: V = I × R"
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="codeExample">
-                        💻 Code Example
-                    </label>
-
-                    <textarea
-                        id="codeExample"
-                        class="code-input"
-                        placeholder="Enter C/C++ code..."
-                    ></textarea>
-
-                </div>
-
-
-                <div id="formMessage" class="form-message"></div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        type="button"
-                        id="cancelButton"
-                        class="cancel-button"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        type="submit"
-                        id="saveTopicButton"
-                        class="save-button"
-                    >
-                        💾 Save Topic
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
+<header class="header">
+  <div class="header-content">
+    <div>
+      <h1>⚡ Embedded Systems Revision Hub</h1>
+      <p>Learn • Revise • Practice • Master</p>
+    </div>
+    <button id="addTopicButton" class="add-topic-button" type="button">➕ Add Topic</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="welcome-card">
+    <h2>👋 Welcome back!</h2>
+    <p>Your personal Embedded Systems learning and revision platform.</p>
+    <p class="welcome-small">Learn Embedded Systems step-by-step from <strong>Zero → Advanced</strong>.</p>
+  </section>
+
+  <section class="search-section">
+    <h2>🔍 Search Your Knowledge</h2>
+    <div class="search-box">
+      <span>🔎</span>
+      <input id="searchInput" type="text" placeholder="Search topics, categories, keywords..." autocomplete="off">
+    </div>
+  </section>
+
+  <section id="searchResultsSection" class="search-results-section hidden">
+    <div class="section-title-row">
+      <h2>🔎 Search Results</h2>
+      <button id="closeSearchButton" class="small-button" type="button">✕ Close</button>
+    </div>
+    <div id="searchResults"></div>
+  </section>
+
+  <section id="roadmapSection" class="roadmap-section">
+    <div class="roadmap-heading">
+      <h2>🚀 Complete Embedded Systems Roadmap</h2>
+      <p>Your complete learning journey from <strong>Zero → Advanced</strong>.</p>
+    </div>
+    <div id="roadmapContainer" class="roadmap-container"></div>
+  </section>
+
+  <section id="learningSection" class="learning-section hidden">
+    <button id="backToRoadmapButton" class="back-button" type="button">← Back to Roadmap</button>
+    <div class="learning-header">
+      <p id="breadcrumb" class="breadcrumb">Roadmap</p>
+      <h2 id="selectedMainTopic">Topic</h2>
+    </div>
+    <div class="topic-layout">
+      <aside class="subtopic-sidebar">
+        <h3>📚 Topics</h3>
+        <div id="topicList"></div>
+      </aside>
+      <article id="topicDetails" class="topic-details"></article>
+    </div>
+  </section>
+</main>
+
+<div id="addTopicModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div><h2>➕ Add Revision Notes</h2><p>Add your Embedded Systems revision notes.</p></div>
+      <button id="closeModalButton" class="close-modal" type="button">✕</button>
     </div>
 
+    <form id="addTopicForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="topicCategory">Main Topic / Category *</label>
+          <input id="topicCategory" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="topicDay">Day <span>(optional)</span></label>
+          <input id="topicDay" type="number" min="1">
+        </div>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="form-group"><label for="topicTitle">Topic Title *</label><input id="topicTitle" type="text" required></div>
+      <div class="form-group"><label for="simpleExplanation">🧒 Meaning / Simple Explanation</label><textarea id="simpleExplanation"></textarea></div>
+      <div class="form-group"><label for="realLifeExample">🏠 Real-Life Example</label><textarea id="realLifeExample"></textarea></div>
+      <div class="form-group"><label for="symbolUnit">🔣 Symbol / Unit</label><textarea id="symbolUnit"></textarea></div>
+      <div class="form-group"><label for="importantPoints">⭐ Important Points</label><textarea id="importantPoints"></textarea></div>
+      <div class="form-group"><label for="embeddedConnection">⚡ Embedded Systems Connection</label><textarea id="embeddedConnection"></textarea></div>
+      <div class="form-group"><label for="formula">🧮 Formula</label><textarea id="formula"></textarea></div>
+      <div class="form-group"><label for="codeExample">💻 Code Example</label><textarea id="codeExample" class="code-input"></textarea></div>
 
+      <div id="formMessage" class="form-message"></div>
+      <div class="form-actions">
+        <button id="cancelButton" class="cancel-button" type="button">Cancel</button>
+        <button id="saveTopicButton" class="save-button" type="submit">💾 Save Topic</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
