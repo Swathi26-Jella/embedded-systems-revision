@@ -13,109 +13,77 @@
 <body>
 
     <!-- HEADER -->
-    <header>
-        <div class="logo">
-            ⚡ Embedded Systems
-            <span>Revision Hub</span>
+    <header class="header">
+
+        <div>
+            <h1>⚡ Embedded Systems</h1>
+            <p>Revision Hub</p>
         </div>
 
-        <p class="tagline">
-            Learn • Revise • Practice • Master
-        </p>
-    </header>
-
-
-    <main>
-
-        <!-- WELCOME -->
-        <section class="welcome">
-
-            <h1>👋 Welcome back!</h1>
-
-            <p>
-                Your personal Embedded Systems learning and revision platform.
-            </p>
-
-        </section>
-
-
-        <!-- STATISTICS -->
-        <section class="dashboard">
-
-            <div class="stat-card">
-                <div class="stat-icon">📚</div>
-                <h2 id="topicCount">0</h2>
-                <p>Topics</p>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">🧠</div>
-                <h2 id="questionCount">0</h2>
-                <p>Revision Questions</p>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">📂</div>
-                <h2 id="categoryCount">0</h2>
-                <p>Categories</p>
-            </div>
-
-        </section>
-
-
-        <!-- SEARCH -->
-        <section class="search-section">
-
-            <h2>🔍 Search Your Knowledge</h2>
-
-            <p>
-                Search topics, categories, titles and explanations.
-            </p>
-
+        <div class="search-box">
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Search Embedded Systems topics..."
+                placeholder="🔍 Search topics..."
             >
+        </div>
 
-        </section>
+    </header>
 
 
-        <!-- CATEGORIES -->
-        <section class="categories-section">
+    <!-- MAIN CONTENT -->
+    <main class="layout">
 
-            <h2>📂 Explore Categories</h2>
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+
+            <h2>📚 Topics</h2>
 
             <div id="category-buttons"></div>
 
-        </section>
-
-
-        <!-- TOPICS -->
-        <section class="topics-section">
-
-            <h2>📚 My Learning Journey</h2>
-
-            <p>
-                Select a topic and start revising.
-            </p>
+            <hr>
 
             <div id="topics"></div>
 
-        </section>
+        </aside>
 
 
-        <!-- DETAILS -->
-        <section id="details-section">
+        <!-- RIGHT CONTENT -->
+        <section class="content">
 
-            <h2>📖 Revision Notes</h2>
+            <div class="content-header">
 
-            <p>
-                Learn the concept first, then revise the important points.
-            </p>
+                <h2>📖 Learn Embedded Systems</h2>
 
+                <p>
+                    Select a topic from the left to start learning.
+                </p>
+
+            </div>
+
+
+            <!-- SELECTED TOPIC -->
             <div id="topic-details">
-                Select a topic to start.
+
+                <div class="welcome-message">
+
+                    <div class="welcome-icon">⚡</div>
+
+                    <h2>Welcome to Embedded Systems Revision Hub</h2>
+
+                    <p>
+                        Choose a topic from the left.
+                    </p>
+
+                    <p>
+                        Learn what it means, understand it with
+                        real-life examples, and see how it is used
+                        in Embedded Systems.
+                    </p>
+
+                </div>
+
             </div>
 
         </section>
@@ -128,17 +96,13 @@
 
         ⚡ Embedded Systems Revision Hub
 
-        <br>
-
-        Built for continuous learning and revision 🚀
-
     </footer>
 
 
     <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- DATA -->
+    <!-- BACKUP DATA -->
     <script src="data.js"></script>
 
     <!-- MAIN SCRIPT -->
