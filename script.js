@@ -1,6 +1,6 @@
-// ========================================
+// =====================================================
 // SUPABASE CONFIGURATION
-// ========================================
+// =====================================================
 
 const SUPABASE_URL =
     "https://uoewymjhabvcmpoagpfo.supabase.co";
@@ -9,69 +9,115 @@ const SUPABASE_KEY =
     "sb_publishable_XHY11aIRfMqBiaQDV-05Uw_mp1UGHN7";
 
 
-// ========================================
-// GLOBAL DATA
-// ========================================
+// =====================================================
+// GLOBAL VARIABLES
+// =====================================================
 
-let topics =
-    typeof backupTopics !== "undefined"
-        ? [...backupTopics]
-        : [];
+let supabaseClient = null;
+
+let topics = [];
 
 let selectedCategory = null;
 
 
-// ========================================
+// =====================================================
 // HTML ELEMENTS
-// ========================================
+// =====================================================
 
 const categoryList =
-    document.getElementById("category-list");
+    document.getElementById("categoryList");
 
 const topicList =
-    document.getElementById("topic-list");
+    document.getElementById("topicList");
 
 const topicDetails =
-    document.getElementById("topic-details");
+    document.getElementById("topicDetails");
 
 const searchInput =
     document.getElementById("searchInput");
 
+const addTopicButton =
+    document.getElementById("addTopicButton");
 
-// ========================================
-// LOAD SUPABASE DATA
-// ========================================
+const addTopicModal =
+    document.getElementById("addTopicModal");
 
-async function loadFromSupabase() {
+const closeModalButton =
+    document.getElementById("closeModalButton");
+
+const cancelButton =
+    document.getElementById("cancelButton");
+
+const addTopicForm =
+    document.getElementById("addTopicForm");
+
+const saveTopicButton =
+    document.getElementById("saveTopicButton");
+
+const formMessage =
+    document.getElementById("formMessage");
+
+
+// =====================================================
+// START SUPABASE
+// =====================================================
+
+function initializeSupabase() {
+
+    if (!window.supabase) {
+
+        showLoadError(
+            "Supabase library could not be loaded."
+        );
+
+        return false;
+    }
+
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    return true;
+}
+
+
+// =====================================================
+// LOAD TOPICS
+// =====================================================
+
+async function loadTopics() {
+
+    categoryList.innerHTML = `
+        <div class="loading">
+            ⏳ Loading categories...
+        </div>
+    `;
+
+
+    if (!initializeSupabase()) {
+
+        return;
+    }
+
 
     try {
 
-        if (!window.supabase) {
-
-            categoryList.innerHTML = `
-                <p class="no-results">
-                    ❌ Supabase library could not be loaded.
-                </p>
-            `;
-
-            return;
-        }
-
-
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
-
-
-        const { data, error } =
+        const result =
             await supabaseClient
                 .from("topics")
                 .select("*")
                 .order("day", {
                     ascending: true
                 });
+
+
+        const data = result.data;
+
+        const error = result.error;
 
 
         if (error) {
@@ -81,64 +127,131 @@ async function loadFromSupabase() {
                 error
             );
 
-            categoryList.innerHTML = `
-                <p class="no-results">
-                    ❌ Could not load topics.
-                </p>
+
+            showLoadError(
+                "Could not load your Supabase topics."
+            );
+
+            return;
+        }
+
+
+        if (!data || data.length === 0) {
+
+            topics = [];
+
+            updateStatistics();
+
+            displayCategories();
+
+            topicList.innerHTML = `
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📭
+                    </div>
+
+                    <h2>
+                        No Topics Yet
+                    </h2>
+
+                    <p>
+                        Click ➕ Add Topic to add
+                        your first topic.
+                    </p>
+
+                </div>
             `;
 
             return;
         }
 
 
-        if (data && data.length > 0) {
-
-            topics = data;
-
-            console.log(
-                "Topics loaded:",
-                topics.length
-            );
-
-        }
+        topics = data;
 
 
-        refreshWebsite();
+        console.log(
+            "Supabase topics loaded:",
+            topics.length
+        );
+
+
+        updateStatistics();
+
+        displayCategories();
+
 
     }
-
     catch (error) {
 
         console.error(
-            "Connection error:",
+            "Unexpected error:",
             error
         );
 
-        categoryList.innerHTML = `
-            <p class="no-results">
-                ❌ Connection error.
-            </p>
-        `;
+
+        showLoadError(
+            "Connection error while loading topics."
+        );
     }
+
 }
 
 
-// ========================================
-// GET UNIQUE CATEGORIES
-// ========================================
+// =====================================================
+// LOAD ERROR
+// =====================================================
+
+function showLoadError(message) {
+
+    categoryList.innerHTML = `
+        <div class="no-results">
+            ❌ ${message}
+        </div>
+    `;
+
+
+    topicList.innerHTML = `
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                ⚠️
+            </div>
+
+            <h2>
+                Topics could not be loaded
+            </h2>
+
+            <p>
+                Please check the Supabase connection.
+            </p>
+
+        </div>
+    `;
+}
+
+
+// =====================================================
+// GET CATEGORIES
+// =====================================================
 
 function getCategories() {
 
     const categories = [];
 
+
     topics.forEach(function (topic) {
 
+        const category =
+            String(topic.category || "").trim();
+
+
         if (
-            topic.category &&
-            !categories.includes(topic.category)
+            category !== "" &&
+            !categories.includes(category)
         ) {
 
-            categories.push(topic.category);
+            categories.push(category);
 
         }
 
@@ -149,23 +262,25 @@ function getCategories() {
 }
 
 
-// ========================================
+// =====================================================
 // DISPLAY CATEGORIES
-// ========================================
+// =====================================================
 
 function displayCategories() {
 
     categoryList.innerHTML = "";
 
-    const categories = getCategories();
+
+    const categories =
+        getCategories();
 
 
     if (categories.length === 0) {
 
         categoryList.innerHTML = `
-            <p class="no-results">
+            <div class="no-results">
                 📭 No categories found.
-            </p>
+            </div>
         `;
 
         return;
@@ -177,14 +292,18 @@ function displayCategories() {
         const button =
             document.createElement("button");
 
+
         button.className =
             "category-button";
+
 
         button.textContent =
             "📂 " + category;
 
 
-        if (category === selectedCategory) {
+        if (
+            selectedCategory === category
+        ) {
 
             button.classList.add("active");
 
@@ -198,9 +317,10 @@ function displayCategories() {
                 selectedCategory =
                     category;
 
+
                 displayCategories();
 
-                displayTopicsForCategory(
+                displayTopics(
                     category
                 );
 
@@ -215,11 +335,11 @@ function displayCategories() {
 }
 
 
-// ========================================
-// DISPLAY TOPICS INSIDE CATEGORY
-// ========================================
+// =====================================================
+// DISPLAY TOPICS
+// =====================================================
 
-function displayTopicsForCategory(category) {
+function displayTopics(category) {
 
     topicDetails.innerHTML = "";
 
@@ -227,65 +347,95 @@ function displayTopicsForCategory(category) {
     const categoryTopics =
         topics.filter(function (topic) {
 
-            return topic.category === category;
+            return (
+                String(topic.category || "").trim()
+                === category
+            );
 
         });
 
 
-    topicList.innerHTML = `
+    topicList.innerHTML = "";
 
-        <h2 class="topic-heading">
-            📂 ${category}
-        </h2>
 
-    `;
+    const heading =
+        document.createElement("h2");
+
+
+    heading.className =
+        "topic-heading";
+
+
+    heading.textContent =
+        "📂 " + category;
+
+
+    topicList.appendChild(
+        heading
+    );
 
 
     if (categoryTopics.length === 0) {
 
-        topicList.innerHTML += `
-            <p class="no-results">
-                📭 No topics found.
-            </p>
-        `;
+        const message =
+            document.createElement("p");
+
+
+        message.className =
+            "no-results";
+
+
+        message.textContent =
+            "📭 No topics in this category yet.";
+
+
+        topicList.appendChild(
+            message
+        );
+
 
         return;
     }
 
 
-    categoryTopics.forEach(function (topic) {
+    categoryTopics.forEach(
+        function (topic) {
 
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "topic-button";
+            const button =
+                document.createElement("button");
 
 
-        button.textContent =
-            topic.title;
+            button.className =
+                "topic-button";
 
 
-        button.addEventListener(
-            "click",
-            function () {
-
-                showTopic(topic);
-
-            }
-        );
+            button.textContent =
+                "📖 " + topic.title;
 
 
-        topicList.appendChild(button);
+            button.addEventListener(
+                "click",
+                function () {
 
-    });
+                    showTopic(topic);
+
+                }
+            );
+
+
+            topicList.appendChild(
+                button
+            );
+
+        }
+    );
 
 }
 
 
-// ========================================
-// SHOW SELECTED TOPIC
-// ========================================
+// =====================================================
+// SHOW TOPIC DETAILS
+// =====================================================
 
 function showTopic(topic) {
 
@@ -295,6 +445,7 @@ function showTopic(topic) {
     const title =
         document.createElement("h2");
 
+
     title.className =
         "topic-title";
 
@@ -303,7 +454,9 @@ function showTopic(topic) {
         "⚡ " + topic.title;
 
 
-    topicDetails.appendChild(title);
+    topicDetails.appendChild(
+        title
+    );
 
 
     addContent(
@@ -343,17 +496,23 @@ function showTopic(topic) {
     );
 
 
-    addContent(
+    addCodeContent(
         "💻 Code Example",
         topic.code_example
     );
 
+
+    topicDetails.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
 }
 
 
-// ========================================
-// ADD CONTENT BOX
-// ========================================
+// =====================================================
+// ADD NORMAL CONTENT
+// =====================================================
 
 function addContent(
     heading,
@@ -373,12 +532,14 @@ function addContent(
     const box =
         document.createElement("div");
 
+
     box.className =
         "note";
 
 
     const headingElement =
         document.createElement("h3");
+
 
     headingElement.textContent =
         heading;
@@ -387,13 +548,15 @@ function addContent(
     const text =
         document.createElement("p");
 
+
     text.textContent =
-        content;
+        String(content);
 
 
     box.appendChild(
         headingElement
     );
+
 
     box.appendChild(
         text
@@ -407,9 +570,89 @@ function addContent(
 }
 
 
-// ========================================
+// =====================================================
+// ADD CODE CONTENT
+// =====================================================
+
+function addCodeContent(
+    heading,
+    content
+) {
+
+    if (
+        content === null ||
+        content === undefined ||
+        String(content).trim() === ""
+    ) {
+
+        return;
+    }
+
+
+    const box =
+        document.createElement("div");
+
+
+    box.className =
+        "note";
+
+
+    const headingElement =
+        document.createElement("h3");
+
+
+    headingElement.textContent =
+        heading;
+
+
+    const code =
+        document.createElement("pre");
+
+
+    code.textContent =
+        String(content);
+
+
+    box.appendChild(
+        headingElement
+    );
+
+
+    box.appendChild(
+        code
+    );
+
+
+    topicDetails.appendChild(
+        box
+    );
+
+}
+
+
+// =====================================================
+// UPDATE STATISTICS
+// =====================================================
+
+function updateStatistics() {
+
+    document.getElementById(
+        "topicCount"
+    ).textContent =
+        topics.length;
+
+
+    document.getElementById(
+        "categoryCount"
+    ).textContent =
+        getCategories().length;
+
+}
+
+
+// =====================================================
 // SEARCH
-// ========================================
+// =====================================================
 
 function searchTopics() {
 
@@ -421,65 +664,79 @@ function searchTopics() {
 
     if (searchText === "") {
 
+        topicDetails.innerHTML = "";
+
+
         if (selectedCategory) {
 
-            displayTopicsForCategory(
+            displayTopics(
                 selectedCategory
             );
 
         }
+        else {
+
+            showDefaultMessage();
+
+        }
+
 
         return;
     }
 
 
     const results =
-        topics.filter(function (topic) {
+        topics.filter(
+            function (topic) {
 
-            const searchableText = `
+                const searchableText = `
 
-                ${topic.category || ""}
+                    ${topic.category || ""}
 
-                ${topic.title || ""}
+                    ${topic.title || ""}
 
-                ${topic.simple_explanation || ""}
+                    ${topic.simple_explanation || ""}
 
-                ${topic.real_life_example || ""}
+                    ${topic.real_life_example || ""}
 
-                ${topic.symbol_unit || ""}
+                    ${topic.symbol_unit || ""}
 
-                ${topic.important_points || ""}
+                    ${topic.important_points || ""}
 
-                ${topic.embedded_connection || ""}
+                    ${topic.embedded_connection || ""}
 
-                ${topic.embedded_connections || ""}
+                    ${topic.embedded_connections || ""}
 
-                ${topic.formula || ""}
+                    ${topic.formula || ""}
 
-                ${topic.code_example || ""}
+                    ${topic.code_example || ""}
 
-            `.toLowerCase();
-
-
-            return searchableText.includes(
-                searchText
-            );
-
-        });
+                `.toLowerCase();
 
 
-    displaySearchResults(results);
+                return searchableText.includes(
+                    searchText
+                );
+
+            }
+        );
+
+
+    displaySearchResults(
+        results
+    );
 
 }
 
 
-// ========================================
-// DISPLAY SEARCH RESULTS
-// ========================================
+// =====================================================
+// SEARCH RESULTS
+// =====================================================
 
 function displaySearchResults(results) {
 
     topicDetails.innerHTML = "";
+
 
     topicList.innerHTML = `
         <h2 class="topic-heading">
@@ -491,84 +748,449 @@ function displaySearchResults(results) {
     if (results.length === 0) {
 
         topicList.innerHTML += `
-            <p class="no-results">
+            <div class="no-results">
                 📭 No matching topics found.
-            </p>
+            </div>
         `;
 
         return;
     }
 
 
-    results.forEach(function (topic) {
+    results.forEach(
+        function (topic) {
 
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "topic-button";
+            const button =
+                document.createElement("button");
 
 
-        button.textContent =
-            "📂 " +
-            topic.category +
-            " → " +
-            topic.title;
+            button.className =
+                "topic-button";
 
 
-        button.addEventListener(
-            "click",
-            function () {
+            button.textContent =
+                "📂 " +
+                topic.category +
+                "  →  📖 " +
+                topic.title;
 
-                showTopic(topic);
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    showTopic(topic);
+
+                }
+            );
+
+
+            topicList.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// DEFAULT MESSAGE
+// =====================================================
+
+function showDefaultMessage() {
+
+    topicList.innerHTML = `
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                ⚡
+            </div>
+
+            <h2>
+                Welcome to Embedded Systems Revision Hub
+            </h2>
+
+            <p>
+                Select a category from the left
+                to see your topics.
+            </p>
+
+        </div>
+    `;
+
+}
+
+
+// =====================================================
+// OPEN ADD TOPIC MODAL
+// =====================================================
+
+function openAddTopicModal() {
+
+    formMessage.textContent = "";
+
+    formMessage.className =
+        "form-message";
+
+
+    addTopicModal.classList.remove(
+        "hidden"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+// =====================================================
+// CLOSE ADD TOPIC MODAL
+// =====================================================
+
+function closeAddTopicModal() {
+
+    addTopicModal.classList.add(
+        "hidden"
+    );
+
+
+    document.body.style.overflow =
+        "";
+}
+
+
+// =====================================================
+// SAVE NEW TOPIC
+// =====================================================
+
+async function saveNewTopic(event) {
+
+    event.preventDefault();
+
+
+    formMessage.textContent =
+        "⏳ Saving topic...";
+
+
+    formMessage.className =
+        "form-message";
+
+
+    saveTopicButton.disabled =
+        true;
+
+
+    try {
+
+        if (!supabaseClient) {
+
+            if (!initializeSupabase()) {
+
+                throw new Error(
+                    "Supabase is not available."
+                );
+
+            }
+
+        }
+
+
+        const dayValue =
+            document
+                .getElementById("topicDay")
+                .value
+                .trim();
+
+
+        const category =
+            document
+                .getElementById("topicCategory")
+                .value
+                .trim();
+
+
+        const title =
+            document
+                .getElementById("topicTitle")
+                .value
+                .trim();
+
+
+        const simpleExplanation =
+            document
+                .getElementById("simpleExplanation")
+                .value
+                .trim();
+
+
+        const realLifeExample =
+            document
+                .getElementById("realLifeExample")
+                .value
+                .trim();
+
+
+        const symbolUnit =
+            document
+                .getElementById("symbolUnit")
+                .value
+                .trim();
+
+
+        const importantPoints =
+            document
+                .getElementById("importantPoints")
+                .value
+                .trim();
+
+
+        const embeddedConnection =
+            document
+                .getElementById("embeddedConnection")
+                .value
+                .trim();
+
+
+        const formula =
+            document
+                .getElementById("formula")
+                .value
+                .trim();
+
+
+        const codeExample =
+            document
+                .getElementById("codeExample")
+                .value
+                .trim();
+
+
+        if (
+            category === "" ||
+            title === ""
+        ) {
+
+            throw new Error(
+                "Category and Topic Title are required."
+            );
+
+        }
+
+
+        // ---------------------------------------------
+        // INSERT INTO SUPABASE
+        // ---------------------------------------------
+
+        const newTopic = {
+
+            category: category,
+
+            title: title,
+
+            simple_explanation:
+                simpleExplanation,
+
+            real_life_example:
+                realLifeExample,
+
+            symbol_unit:
+                symbolUnit,
+
+            important_points:
+                importantPoints,
+
+            embedded_connections:
+                embeddedConnection,
+
+            formula:
+                formula,
+
+            code_example:
+                codeExample
+
+        };
+
+
+        // Only send day when the user entered it.
+
+        if (dayValue !== "") {
+
+            newTopic.day =
+                Number(dayValue);
+
+        }
+
+
+        const result =
+            await supabaseClient
+                .from("topics")
+                .insert([newTopic])
+                .select();
+
+
+        const data =
+            result.data;
+
+        const error =
+            result.error;
+
+
+        if (error) {
+
+            console.error(
+                "Insert error:",
+                error
+            );
+
+
+            throw new Error(
+                error.message
+            );
+
+        }
+
+
+        // ---------------------------------------------
+        // ADD TO LOCAL WEBSITE DATA
+        // ---------------------------------------------
+
+        if (data && data.length > 0) {
+
+            topics.push(
+                data[0]
+            );
+
+        }
+        else {
+
+            topics.push(
+                newTopic
+            );
+
+        }
+
+
+        // Sort by day if available.
+
+        topics.sort(
+            function (a, b) {
+
+                return (
+                    Number(a.day || 999999) -
+                    Number(b.day || 999999)
+                );
 
             }
         );
 
 
-        topicList.appendChild(button);
+        // ---------------------------------------------
+        // REFRESH WEBSITE
+        // ---------------------------------------------
 
-    });
+        updateStatistics();
+
+        displayCategories();
+
+
+        selectedCategory =
+            category;
+
+
+        displayCategories();
+
+        displayTopics(
+            category
+        );
+
+
+        // ---------------------------------------------
+        // SHOW SUCCESS
+        // ---------------------------------------------
+
+        formMessage.textContent =
+            "✅ Topic saved successfully!";
+
+
+        formMessage.className =
+            "form-message success";
+
+
+        // ---------------------------------------------
+        // RESET FORM AFTER SHORT DELAY
+        // ---------------------------------------------
+
+        setTimeout(
+            function () {
+
+                addTopicForm.reset();
+
+                closeAddTopicModal();
+
+                formMessage.textContent = "";
+
+            },
+            900
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Save topic error:",
+            error
+        );
+
+
+        formMessage.textContent =
+            "❌ " + error.message;
+
+
+        formMessage.className =
+            "form-message error";
+
+    }
+    finally {
+
+        saveTopicButton.disabled =
+            false;
+
+    }
 
 }
 
 
-// ========================================
-// STATISTICS
-// ========================================
+// =====================================================
+// EVENTS
+// =====================================================
 
-function updateStatistics() {
-
-    document
-        .getElementById("topicCount")
-        .textContent =
-        topics.length;
+addTopicButton.addEventListener(
+    "click",
+    openAddTopicModal
+);
 
 
-    document
-        .getElementById("categoryCount")
-        .textContent =
-        getCategories().length;
-
-}
+closeModalButton.addEventListener(
+    "click",
+    closeAddTopicModal
+);
 
 
-// ========================================
-// REFRESH WEBSITE
-// ========================================
-
-function refreshWebsite() {
-
-    updateStatistics();
-
-    displayCategories();
-
-}
+cancelButton.addEventListener(
+    "click",
+    closeAddTopicModal
+);
 
 
-// ========================================
-// SEARCH EVENT
-// ========================================
+addTopicForm.addEventListener(
+    "submit",
+    saveNewTopic
+);
+
 
 searchInput.addEventListener(
     "input",
@@ -576,10 +1198,29 @@ searchInput.addEventListener(
 );
 
 
-// ========================================
+// Close modal when clicking outside.
+
+addTopicModal.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target ===
+            addTopicModal
+        ) {
+
+            closeAddTopicModal();
+
+        }
+
+    }
+);
+
+
+// =====================================================
 // START WEBSITE
-// ========================================
+// =====================================================
 
-refreshWebsite();
+showDefaultMessage();
 
-loadFromSupabase();
+loadTopics();
