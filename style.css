@@ -1,133 +1,219 @@
+/* =====================================================
+   RESET
+===================================================== */
+
 * {
     box-sizing: border-box;
 }
 
+
+html {
+    scroll-behavior: smooth;
+}
+
+
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     background: #f4f7fb;
+
     color: #1f2937;
+
+    line-height: 1.5;
 }
 
 
-/* =========================
+
+/* =====================================================
    HEADER
-========================= */
+===================================================== */
 
-header {
-    background: linear-gradient(135deg, #0f172a, #1e3a5f);
+.main-header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #1e3a5f
+        );
+
     color: white;
-    text-align: center;
-    padding: 30px 20px;
-}
 
-.logo {
-    font-size: 32px;
-    font-weight: bold;
-}
+    padding: 28px 30px;
 
-.logo span {
-    display: block;
-    margin-top: 5px;
-    color: #60a5fa;
-}
-
-.tagline {
-    color: #dbeafe;
-    margin-top: 10px;
+    box-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, 0.15);
 }
 
 
-/* =========================
-   MAIN
-========================= */
+.header-content {
 
-main {
     max-width: 1200px;
+
     margin: auto;
-    padding: 25px 20px;
-}
 
-section {
-    background: white;
-    padding: 25px;
-    margin-bottom: 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-}
+    display: flex;
 
+    align-items: center;
 
-/* =========================
-   WELCOME
-========================= */
+    justify-content: space-between;
 
-.welcome h1 {
-    margin-top: 0;
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
-.stat-card {
-    text-align: center;
-    padding: 20px;
-    background: #f8fafc;
-    border-radius: 12px;
-}
 
-.stat-icon {
-    font-size: 30px;
-}
+.main-header h1 {
 
-.stat-card h2 {
-    font-size: 30px;
-    margin: 8px 0;
-}
+    margin: 0;
 
-.stat-card p {
-    color: #64748b;
+    font-size: 32px;
+
+    line-height: 1.2;
 }
 
 
-/* =========================
-   SEARCH
-========================= */
+.main-header h1 span {
 
-#searchInput {
-    width: 100%;
-    padding: 14px;
+    color: #60a5fa;
+
+    display: inline-block;
+}
+
+
+.tagline {
+
+    margin: 10px 0 0;
+
+    color: #dbeafe;
+
+    font-size: 15px;
+}
+
+
+
+/* =====================================================
+   ADD TOPIC BUTTON
+===================================================== */
+
+.add-topic-button {
+
+    border: none;
+
+    background: #2563eb;
+
+    color: white;
+
+    padding: 13px 20px;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: 0.2s;
+}
+
+
+.add-topic-button:hover {
+
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 30px 20px;
+}
+
+
+section {
+
+    background: white;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.06);
+
+    margin-bottom: 22px;
+}
+
+
+
+/* =====================================================
+   WELCOME
+===================================================== */
+
+.welcome-section {
+
+    padding: 28px;
+}
+
+
+.welcome-section h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 8px;
+
+    font-size: 25px;
+}
+
+
+.welcome-section p {
+
+    margin: 6px 0;
+
+    color: #475569;
+
     font-size: 16px;
-
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-}
-
-#searchInput:focus {
-    outline: none;
-    border-color: #2563eb;
 }
 
 
-/* =========================
-   LEARNING AREA
-========================= */
+.welcome-section .welcome-small {
 
-.learning-area {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+.statistics {
+
     display: grid;
 
-    grid-template-columns: 280px 1fr;
+    grid-template-columns:
+        repeat(2, 1fr);
 
-    gap: 25px;
-
-    padding: 0;
+    gap: 20px;
 
     background: transparent;
 
@@ -135,62 +221,263 @@ section {
 }
 
 
-/* =========================
-   SIDEBAR
-========================= */
+.stat-card {
 
-.sidebar {
     background: white;
-
-    padding: 20px;
 
     border-radius: 14px;
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    padding: 20px 25px;
 
-    height: fit-content;
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.06);
 }
 
-.sidebar h2 {
-    margin-top: 0;
 
-    padding-bottom: 15px;
+.stat-icon {
 
-    border-bottom: 1px solid #e2e8f0;
+    font-size: 35px;
+
+    width: 55px;
+
+    text-align: center;
 }
 
 
-/* =========================
-   CATEGORY BUTTONS
-========================= */
+.stat-card h2 {
 
-.category-button {
+    margin: 0;
+
+    font-size: 30px;
+
+    color: #1e3a5f;
+}
+
+
+.stat-card p {
+
+    margin: 2px 0 0;
+
+    color: #64748b;
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-section {
+
+    padding: 25px;
+}
+
+
+.search-section h2 {
+
+    margin: 0 0 5px;
+}
+
+
+.search-section p {
+
+    color: #64748b;
+
+    margin: 0 0 15px;
+
+    font-size: 14px;
+}
+
+
+.search-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 9px;
+
+    padding: 0 14px;
+
+    background: white;
+}
+
+
+.search-box:focus-within {
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.1);
+}
+
+
+.search-box span {
+
+    font-size: 18px;
+}
+
+
+#searchInput {
+
     width: 100%;
-
-    text-align: left;
-
-    padding: 14px;
-
-    margin-bottom: 8px;
 
     border: none;
 
-    border-radius: 8px;
+    outline: none;
 
-    background: #f1f5f9;
+    padding: 14px 0;
+
+    font-size: 16px;
+
+    background: transparent;
+}
+
+
+
+/* =====================================================
+   LEARNING SECTION
+===================================================== */
+
+.learning-section {
+
+    padding: 25px;
+}
+
+
+.section-heading h2 {
+
+    margin: 0;
+
+    font-size: 23px;
+}
+
+
+.section-heading p {
+
+    margin: 5px 0 20px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+
+/* =====================================================
+   TWO COLUMN LAYOUT
+===================================================== */
+
+.learning-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        270px 1fr;
+
+    gap: 25px;
+
+    align-items: start;
+}
+
+
+
+/* =====================================================
+   CATEGORY SIDEBAR
+===================================================== */
+
+.category-sidebar {
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+
+.sidebar-title {
+
+    background: #f8fafc;
+
+    padding: 16px;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+
+.sidebar-title h3 {
+
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+#categoryList {
+
+    padding: 10px;
+}
+
+
+
+/* =====================================================
+   CATEGORY BUTTON
+===================================================== */
+
+.category-button {
+
+    width: 100%;
+
+    display: block;
+
+    text-align: left;
+
+    border: none;
+
+    background: white;
+
+    color: #334155;
+
+    padding: 13px 12px;
+
+    margin-bottom: 5px;
+
+    border-radius: 8px;
 
     cursor: pointer;
 
-    font-size: 15px;
+    font-size: 14px;
 
     transition: 0.2s;
 }
 
+
 .category-button:hover {
-    background: #dbeafe;
+
+    background: #eff6ff;
+
+    color: #1d4ed8;
 }
 
+
 .category-button.active {
+
     background: #2563eb;
 
     color: white;
@@ -199,129 +486,216 @@ section {
 }
 
 
-/* =========================
-   CONTENT AREA
-========================= */
 
-.content-area {
-    background: white;
+/* =====================================================
+   TOPIC AREA
+===================================================== */
 
-    padding: 25px;
+.topic-area {
 
-    border-radius: 14px;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-
-    min-height: 500px;
+    min-width: 0;
 }
 
 
-/* =========================
-   TOPIC LIST
-========================= */
-
 .topic-heading {
-    margin-top: 0;
+
+    margin: 0 0 15px;
 
     padding-bottom: 15px;
 
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom:
+        1px solid #e2e8f0;
+
+    color: #1e3a5f;
 }
 
+
+
+/* =====================================================
+   TOPIC BUTTON
+===================================================== */
+
 .topic-button {
+
     width: 100%;
+
+    display: block;
 
     text-align: left;
 
-    padding: 16px;
-
-    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
 
     background: #f8fafc;
 
-    border: 1px solid #e2e8f0;
+    padding: 16px 18px;
 
-    border-radius: 8px;
+    margin-bottom: 10px;
+
+    border-radius: 9px;
 
     cursor: pointer;
 
+    color: #1f2937;
+
     font-size: 16px;
+
+    font-weight: 600;
 
     transition: 0.2s;
 }
 
+
 .topic-button:hover {
+
     background: #eff6ff;
 
     border-color: #2563eb;
+
+    color: #1d4ed8;
 }
 
 
-/* =========================
-   TOPIC DETAILS
-========================= */
 
-#topic-details {
+/* =====================================================
+   TOPIC DETAILS
+===================================================== */
+
+#topicDetails {
+
     margin-top: 25px;
 }
 
+
 .topic-title {
+
+    margin: 0 0 20px;
+
     color: #1e3a5f;
 
-    margin-top: 0;
+    font-size: 25px;
 
     padding-bottom: 15px;
 
-    border-bottom: 2px solid #e2e8f0;
+    border-bottom:
+        2px solid #e2e8f0;
 }
 
-.note {
-    margin-top: 18px;
 
-    padding: 18px;
+.note {
 
     background: #f8fafc;
 
-    border-left: 5px solid #2563eb;
+    border-left:
+        5px solid #2563eb;
 
     border-radius: 8px;
+
+    padding: 18px;
+
+    margin-bottom: 16px;
 }
+
 
 .note h3 {
-    margin-top: 0;
+
+    margin: 0 0 8px;
+
+    color: #1e3a5f;
+
+    font-size: 17px;
 }
 
+
 .note p {
-    line-height: 1.7;
+
+    margin: 0;
 
     white-space: pre-line;
 
-    margin-bottom: 0;
+    line-height: 1.7;
+
+    color: #334155;
 }
 
 
-/* =========================
-   WELCOME MESSAGE
-========================= */
+.note pre {
 
-.welcome-message {
+    margin: 0;
+
+    padding: 15px;
+
+    background: #0f172a;
+
+    color: #e2e8f0;
+
+    border-radius: 7px;
+
+    overflow-x: auto;
+
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+
+/* =====================================================
+   EMPTY / LOADING
+===================================================== */
+
+.empty-state {
+
     text-align: center;
 
-    padding: 70px 20px;
+    padding: 70px 25px;
 
     color: #64748b;
 }
 
-.welcome-message h2 {
-    color: #1e3a5f;
+
+.empty-icon {
+
+    font-size: 45px;
+
+    margin-bottom: 15px;
 }
 
 
-/* =========================
-   NO RESULTS
-========================= */
+.empty-state h2 {
+
+    margin: 0 0 8px;
+
+    color: #1e3a5f;
+
+    font-size: 22px;
+}
+
+
+.empty-state p {
+
+    margin: 0;
+}
+
+
+.loading {
+
+    text-align: center;
+
+    color: #64748b;
+
+    padding: 20px 5px;
+
+    font-size: 14px;
+}
+
 
 .no-results {
+
     text-align: center;
 
     padding: 30px;
@@ -330,43 +704,411 @@ section {
 }
 
 
-/* =========================
-   FOOTER
-========================= */
 
-footer {
-    background: #0f172a;
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(15, 23, 42, 0.65);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+
+    overflow-y: auto;
+}
+
+
+.modal.hidden {
+
+    display: none;
+}
+
+
+.modal-content {
+
+    width: 100%;
+
+    max-width: 760px;
+
+    max-height: 92vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.25);
+}
+
+
+.modal-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding: 22px 25px;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+
+.modal-header h2 {
+
+    margin: 0;
+
+    color: #1e3a5f;
+}
+
+
+.modal-header p {
+
+    margin: 4px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+.close-button {
+
+    border: none;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+.close-button:hover {
+
+    background: #e2e8f0;
+}
+
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+#addTopicForm {
+
+    padding: 25px;
+}
+
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 150px;
+
+    gap: 15px;
+}
+
+
+.form-group {
+
+    margin-bottom: 17px;
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+
+    color: #334155;
+
+    font-size: 14px;
+}
+
+
+.form-group input,
+.form-group textarea {
+
+    width: 100%;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.1);
+}
+
+
+.form-group textarea {
+
+    min-height: 95px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+
+.form-group textarea.code-input {
+
+    min-height: 140px;
+
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+}
+
+
+
+/* =====================================================
+   FORM BUTTONS
+===================================================== */
+
+.form-buttons {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 10px;
+}
+
+
+.cancel-button,
+.save-button {
+
+    border: none;
+
+    padding: 12px 20px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.cancel-button {
+
+    background: #e2e8f0;
+
+    color: #334155;
+}
+
+
+.cancel-button:hover {
+
+    background: #cbd5e1;
+}
+
+
+.save-button {
+
+    background: #2563eb;
 
     color: white;
+}
+
+
+.save-button:hover {
+
+    background: #1d4ed8;
+}
+
+
+.save-button:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+
+/* =====================================================
+   FORM MESSAGE
+===================================================== */
+
+.form-message {
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.form-message.success {
+
+    color: #15803d;
+}
+
+
+.form-message.error {
+
+    color: #dc2626;
+}
+
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    background: #0f172a;
+
+    color: #cbd5e1;
 
     text-align: center;
 
     padding: 25px;
 
     margin-top: 20px;
+
+    font-size: 14px;
 }
 
 
-/* =========================
+footer strong {
+
+    color: white;
+}
+
+
+
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media (max-width: 800px) {
 
-    .learning-area {
+    .header-content {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .main-header h1 {
+
+        font-size: 26px;
+    }
+
+
+    .statistics {
+
         grid-template-columns: 1fr;
     }
 
-    .dashboard {
+
+    .learning-layout {
+
         grid-template-columns: 1fr;
     }
 
-    .logo {
-        font-size: 25px;
+
+    .category-sidebar {
+
+        width: 100%;
     }
+
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 500px) {
 
     main {
+
         padding: 15px;
+    }
+
+
+    .learning-section,
+    .welcome-section,
+    .search-section {
+
+        padding: 18px;
+    }
+
+
+    .form-buttons {
+
+        flex-direction: column;
+    }
+
+
+    .cancel-button,
+    .save-button {
+
+        width: 100%;
     }
 
 }
