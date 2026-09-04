@@ -12,54 +12,100 @@
 
 <body>
 
-<header class="header">
+<header>
 
     <div class="logo">
         ⚡ Embedded Systems
         <span>Revision Hub</span>
     </div>
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 Search topics..."
-    >
+    <p class="tagline">
+        Learn • Revise • Practice • Master
+    </p>
 
 </header>
 
 
-<main class="layout">
+<main>
 
-    <!-- LEFT SIDE -->
-    <aside class="sidebar">
+    <!-- WELCOME -->
+    <section class="welcome">
 
-        <h2>📚 Topics</h2>
+        <h1>👋 Welcome to your Revision Hub</h1>
 
-        <div id="topics"></div>
+        <p>
+            Select a category to explore your Embedded Systems topics.
+        </p>
 
-    </aside>
+    </section>
 
 
-    <!-- RIGHT SIDE -->
-    <section class="content">
+    <!-- STATISTICS -->
+    <section class="dashboard">
 
-        <div id="topic-details">
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <h2 id="topicCount">0</h2>
+            <p>Topics</p>
+        </div>
 
-            <div class="welcome-message">
+        <div class="stat-card">
+            <div class="stat-icon">📂</div>
+            <h2 id="categoryCount">0</h2>
+            <p>Categories</p>
+        </div>
 
-                <div class="welcome-icon">⚡</div>
+    </section>
 
-                <h2>Welcome to Embedded Systems Revision Hub</h2>
 
-                <p>
-                    Select a topic from the left to start learning.
-                </p>
+    <!-- SEARCH -->
+    <section class="search-section">
 
-                <p>
-                    Learn the concept, understand it with
-                    real-life examples and see how it is used
-                    in Embedded Systems.
-                </p>
+        <h2>🔍 Search</h2>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search topics, categories or concepts..."
+        >
+
+    </section>
+
+
+    <!-- MAIN LEARNING AREA -->
+    <section class="learning-area">
+
+        <!-- LEFT SIDE -->
+        <aside class="sidebar">
+
+            <h2>📂 Categories</h2>
+
+            <div id="category-list">
+                ⏳ Loading categories...
+            </div>
+
+        </aside>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="content-area">
+
+            <div id="topic-list">
+
+                <div class="welcome-message">
+
+                    <h2>⚡ Embedded Systems Revision Hub</h2>
+
+                    <p>
+                        Select a category from the left to see its topics.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="topic-details">
 
             </div>
 
@@ -71,7 +117,11 @@
 
 
 <footer>
+
     ⚡ Embedded Systems Revision Hub
+    <br>
+    Built for continuous learning and revision 🚀
+
 </footer>
 
 
@@ -85,4 +135,5 @@
 <script src="script.js"></script>
 
 </body>
+
 </html>
